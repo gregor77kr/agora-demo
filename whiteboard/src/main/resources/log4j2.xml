@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%style{%d{ISO8601}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable" />
+		</Console>
+	</Appenders>
+
+	<Loggers>
+		<logger name="org.springframework" level="info" additivity="false">
+			<AppenderRef ref="console" />
+		</logger>
+
+		<logger name="net.mwav.agora.*" additivity="true">
+			<AppenderRef ref="console" level="info" />
+		</logger>
+	</Loggers>
+</Configuration>
