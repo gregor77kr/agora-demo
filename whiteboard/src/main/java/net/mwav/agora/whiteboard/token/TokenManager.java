@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.stereotype.Component;
+
 /**
  * This class provides the methods for Netless Token generater.
  * Used to generate a tokens instead of RESTful API.
@@ -22,6 +24,7 @@ import javax.crypto.spec.SecretKeySpec;
  * {@link https://github.com/netless-io/netless-token}
  *  
  */
+@Component
 public class TokenManager {
 
 	/**
@@ -58,19 +61,19 @@ public class TokenManager {
 		}
 	}
 
-	public static String getSdkToken(String accessKey, String secretAccessKey, long lifespan, Map<String, String> content) throws Exception {
+	public String getSdkToken(String accessKey, String secretAccessKey, long lifespan, Map<String, String> content) throws Exception {
 		return createToken(TokenPrefix.SDK.getValue(), accessKey, secretAccessKey, lifespan, content);
 	}
 
-	public static String getRoomToken(String accessKey, String secretAccessKey, long lifespan, Map<String, String> content) throws Exception {
+	public String getRoomToken(String accessKey, String secretAccessKey, long lifespan, Map<String, String> content) throws Exception {
 		return createToken(TokenPrefix.ROOM.getValue(), accessKey, secretAccessKey, lifespan, content);
 	}
 
-	public static String getTaskToken(String accessKey, String secretAccessKey, long lifespan, Map<String, String> content) throws Exception {
+	public String getTaskToken(String accessKey, String secretAccessKey, long lifespan, Map<String, String> content) throws Exception {
 		return createToken(TokenPrefix.TASK.getValue(), accessKey, secretAccessKey, lifespan, content);
 	}
 
-	private static String createToken(String prefix, String accessKey, String secretAccessKey, long lifespan, Map<String, String> content) throws Exception {
+	private String createToken(String prefix, String accessKey, String secretAccessKey, long lifespan, Map<String, String> content) throws Exception {
 		LinkedHashMap<String, String> map = new LinkedHashMap<>();
 		map.putAll(content);
 		map.put("ak", accessKey);
