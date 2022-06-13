@@ -16,12 +16,16 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import net.mwav.agora.whiteboard.token.TokenManager;
 
 @SpringBootTest
 class TokenManagerTest {
+
+	private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
 	@Inject
 	private TokenManager tokenManager;
@@ -39,6 +43,9 @@ class TokenManagerTest {
 
 		String expected = createToken(prefix, accessKey, secretAccessKey, lifespan, map);
 		String actuals = tokenManager.getRoomToken(accessKey, secretAccessKey, lifespan, map);
+
+		logger.info("expected : " + expected);
+		logger.info("actuals : " + actuals);
 	}
 
 	private static String createToken(String prefix, String accessKey, String secretAccessKey, long lifespan, Map<String, String> content) throws Exception {

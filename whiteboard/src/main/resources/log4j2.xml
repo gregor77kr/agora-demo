@@ -11,8 +11,12 @@
 			<AppenderRef ref="console" />
 		</logger>
 
-		<logger name="net.mwav.agora.*" additivity="true">
-			<AppenderRef ref="console" level="info" />
+		<logger name="net.mwav.agora.whiteboard" level="info" additivity="true">
+			<AppenderRef ref="console" />
 		</logger>
+
+		<Root level="info">
+			<AppenderRef ref="ConsoleAppender" />
+		</Root>
 	</Loggers>
 </Configuration>

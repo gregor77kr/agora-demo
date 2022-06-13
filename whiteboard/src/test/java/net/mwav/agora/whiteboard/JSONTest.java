@@ -7,6 +7,8 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,6 +17,8 @@ import net.mwav.agora.whiteboard.util.JsonUtil;
 
 @SpringBootTest
 class JSONTest {
+
+	private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
 	@Inject
 	private JsonUtil jsonUtil;
@@ -27,6 +31,7 @@ class JSONTest {
 		map.put("nonce", UUID.randomUUID().toString());
 
 		String mapToJson = jsonUtil.convertToJson(map);
+		logger.info(mapToJson);
 	}
 
 }
