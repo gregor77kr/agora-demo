@@ -2,7 +2,9 @@
 <Configuration status="INFO">
 	<Appenders>
 		<Console name="console" target="SYSTEM_OUT">
-			<PatternLayout pattern="%style{%d{ISO8601}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable" />
+			<PatternLayout pattern="[%-5p] [%d{yyyy-MM-dd HH:mm:ss,SSS}] : %c - %m%n" />
+			<!-- <PatternLayout
+				pattern="%style{%d{ISO8601}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable" /> -->
 		</Console>
 	</Appenders>
 
@@ -11,12 +13,12 @@
 			<AppenderRef ref="console" />
 		</logger>
 
-		<logger name="net.mwav.agora.whiteboard" level="info" additivity="true">
+		<logger name="net.mwav.agora.whiteboard" level="info" additivity="false">
 			<AppenderRef ref="console" />
 		</logger>
 
-		<Root level="info">
-			<AppenderRef ref="ConsoleAppender" />
+		<Root level="error">
+			<AppenderRef ref="console" />
 		</Root>
 	</Loggers>
 </Configuration>

@@ -1,5 +1,7 @@
 package net.mwav.agora.whiteboard;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -25,30 +27,34 @@ import net.mwav.agora.whiteboard.token.TokenManager;
 @SpringBootTest
 class TokenManagerTest {
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+	private static final Logger logger = LoggerFactory.getLogger(TokenManagerTest.class);
 
 	@Inject
 	private TokenManager tokenManager;
 
 	@Test
 	void test() throws Exception {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("role", TokenManager.TokenRole.READER.getValue());
-		map.put("uuid", "uuid");
-
-		String accessKey = "ak";
-		String secretAccessKey = "sk";
-		String prefix = TokenManager.TokenPrefix.ROOM.getValue();
+		String role = "READER";
+		String uuid = "uuid";
+		String accessKey = "acessKey";
+		String secretAccessKey = "secretAccessKey";
+		String prefix = "NETLESSROOM_";
 		long lifespan = (1000 * 60 * 10);
 
-		String expected = createToken(prefix, accessKey, secretAccessKey, lifespan, map);
-		String actuals = tokenManager.getRoomToken(accessKey, secretAccessKey, lifespan, map);
+		Map<String, String> content = new HashMap<String, String>();
+		content.put("role", role);
+		content.put("uuid", uuid);
+
+		String expected = createToken(prefix, accessKey, secretAccessKey, lifespan, content);
+		String actuals = tokenManager.getRoomToken(role, lifespan, uuid);
 
 		logger.info("expected : " + expected);
 		logger.info("actuals : " + actuals);
+
+		assertEquals(expected.length(), actuals.length());
 	}
 
-	private static String createToken(String prefix, String accessKey, String secretAccessKey, long lifespan, Map<String, String> content) throws Exception {
+	private String createToken(String prefix, String accessKey, String secretAccessKey, long lifespan, Map<String, String> content) throws Exception {
 		LinkedHashMap<String, String> map = new LinkedHashMap<>();
 		map.putAll(content);
 		map.put("ak", accessKey);
@@ -66,7 +72,7 @@ class TokenManagerTest {
 		return prefix + stringToBase64(query);
 	}
 
-	private static LinkedHashMap<String, String> sortMap(Map<String, String> object) {
+	private LinkedHashMap<String, String> sortMap(Map<String, String> object) {
 		List<String> keys = new ArrayList<>(object.keySet());
 		keys.sort(null);
 
@@ -77,7 +83,7 @@ class TokenManagerTest {
 		return linkedHashMap;
 	}
 
-	private static String toJson(LinkedHashMap<String, String> map) {
+	private String toJson(LinkedHashMap<String, String> map) {
 		Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
 
 		List<String> result = new ArrayList<>();
@@ -94,7 +100,7 @@ class TokenManagerTest {
 		return "{" + String.join(",", result) + "}";
 	}
 
-	private static String createHmac(String key, String data) throws Exception {
+	private String createHmac(String key, String data) throws Exception {
 		Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
 		SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
 		sha256_HMAC.init(secret_key);
@@ -102,7 +108,7 @@ class TokenManagerTest {
 		return byteArrayToHexString(sha256_HMAC.doFinal(data.getBytes("UTF-8")));
 	}
 
-	private static String sortAndStringifyMap(Map<String, String> object) {
+	private String sortAndStringifyMap(Map<String, String> object) {
 		List<String> keys = new ArrayList<>(object.keySet());
 		keys.sort(null);
 
@@ -117,7 +123,7 @@ class TokenManagerTest {
 		return String.join("&", kvStrings);
 	}
 
-	private static String stringToBase64(String str) throws UnsupportedEncodingException {
+	private String stringToBase64(String str) throws UnsupportedEncodingException {
 		return Base64.getEncoder()
 				.encodeToString(str.getBytes("utf-8"))
 				.replace("+", "-")
@@ -125,7 +131,7 @@ class TokenManagerTest {
 				.replaceAll("=+$", "");
 	}
 
-	private static String byteArrayToHexString(byte[] b) {
+	private String byteArrayToHexString(byte[] b) {
 		StringBuilder hs = new StringBuilder();
 		String stmp;
 		for (int n = 0; b != null && n < b.length; n++) {
@@ -137,7 +143,7 @@ class TokenManagerTest {
 		return hs.toString().toLowerCase();
 	}
 
-	private static String encodeURIComponent(String s) {
+	private String encodeURIComponent(String s) {
 		String result = null;
 
 		try {
