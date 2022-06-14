@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "jdbc")
-@ConfigurationPropertiesScan
 public class JDBCProperty {
 
 	private String url;
