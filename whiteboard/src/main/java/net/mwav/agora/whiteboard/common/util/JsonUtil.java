@@ -1,4 +1,4 @@
-package net.mwav.agora.whiteboard.util;
+package net.mwav.agora.whiteboard.common.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

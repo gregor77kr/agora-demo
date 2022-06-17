@@ -1,4 +1,4 @@
-package net.mwav.agora.whiteboard.controller;
+package net.mwav.agora.whiteboard.common.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

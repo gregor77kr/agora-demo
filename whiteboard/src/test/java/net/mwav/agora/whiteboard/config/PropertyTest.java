@@ -1,4 +1,4 @@
-package net.mwav.agora.whiteboard;
+package net.mwav.agora.whiteboard.config;
 
 import javax.inject.Inject;
 

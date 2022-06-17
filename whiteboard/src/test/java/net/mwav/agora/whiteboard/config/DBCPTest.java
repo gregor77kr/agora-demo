@@ -1,4 +1,4 @@
-package net.mwav.agora.whiteboard;
+package net.mwav.agora.whiteboard.config;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

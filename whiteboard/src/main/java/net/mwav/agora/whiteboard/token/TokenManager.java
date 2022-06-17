@@ -19,8 +19,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
+import net.mwav.agora.whiteboard.common.util.JsonUtil;
 import net.mwav.agora.whiteboard.token.constant.TokenPrefix;
-import net.mwav.agora.whiteboard.util.JsonUtil;
 
 /**
  * This class provides the methods for Netless Token generater.

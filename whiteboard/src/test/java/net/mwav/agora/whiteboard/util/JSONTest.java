@@ -1,4 +1,4 @@
-package net.mwav.agora.whiteboard;
+package net.mwav.agora.whiteboard.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import net.mwav.agora.whiteboard.util.JsonUtil;
+import net.mwav.agora.whiteboard.common.util.JsonUtil;
 
 class JSONTest {
 
