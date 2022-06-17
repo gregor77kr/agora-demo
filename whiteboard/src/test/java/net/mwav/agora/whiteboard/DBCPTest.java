@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-import net.mwav.agora.whiteboard.config.DBCPConfigurer;
+import net.mwav.agora.whiteboard.config.DBCPConfig;
 
 @SpringBootTest
 class DBCPTest {
@@ -20,7 +20,7 @@ class DBCPTest {
 	private static final Logger logger = LoggerFactory.getLogger(DBCPTest.class);
 
 	@Inject
-	private DBCPConfigurer dbcpConfigurer;
+	private DBCPConfig dbcpConfigurer;
 
 	@Inject
 	private DataSource datasource;

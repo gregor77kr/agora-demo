@@ -4,56 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>agora whiteboard</title>
-<!-- <link rel="stylesheet" href="https://sdk.herewhite.com/white-web-sdk/2.9.1.css"> -->
 </head>
 <body>
-	<div id="dvToken">
-		token :
-		<textarea id="areaToken" rows="5" style="width: 100%;" readonly="readonly"></textarea>
-		<button type="button" id="btnGetToken">get token</button>
-		<button type="button" id="btnCreateRoom">create room</button>
-	</div>
-	<!-- #dvToken -->
-
-	<div id="dvRoom">
-		<table style="border: 1px;">
-			<colgroup>
-				<col style="width: 20%">
-				<col style="width: 20%">
-				<col style="width: 20%">
-				<col style="width: 20%">
-				<col style="width: 20%">
-			</colgroup>
-			<thead>
-				<tr>
-					<th>createdAt</th>
-					<th>uuid</th>
-					<th>room token</th>
-					<th>get room token</th>
-					<th>join room</th>
-				</tr>
-			</thead>
-			<tbody id="tbRoom">
-				<tr>
-					<td></td>
-					<td colspan="2"></td>
-					<td style="display: none;"></td>
-					<td>
-						<button type="button" class="btn-token">get room token</button>
-					</td>
-					<td>
-						<button type="button" class="btn-join">join room</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<!-- #dvRoom -->
-
-	<div id="whiteBoard" style="width: 100%; height: 700px; margin-top: 20px;"></div>
-
 	<script src="https://sdk.herewhite.com/white-web-sdk/2.15.16.js"></script>
-	<script type="text/javascript" src="js/properties.js"></script>
 	<script type="text/javascript" src="js/utils.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
 </body>

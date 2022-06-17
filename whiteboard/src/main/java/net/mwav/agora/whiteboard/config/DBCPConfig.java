@@ -11,7 +11,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @ConfigurationProperties(prefix = "jdbc")
-public class DBCPConfigurer {
+public class DBCPConfig {
 
 	private String url;
 
