@@ -1,11 +1,17 @@
 package net.mwav.agora.whiteboard.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @ConfigurationProperties(prefix = "jdbc")
-public class JDBCProperty {
+public class DBCPConfigurer {
 
 	private String url;
 
@@ -40,6 +46,21 @@ public class JDBCProperty {
 	@Override
 	public String toString() {
 		return "JDBCProperty [url=" + url + ", username=" + username + ", password=" + password + "]";
+	}
+
+	@Bean
+	public DataSource hikariDataSource() {
+		HikariDataSource datasource = DataSourceBuilder.create()
+				.type(HikariDataSource.class)
+				.url(url)
+				.username(username)
+				.password(password)
+				.build();
+
+		datasource.setConnectionTestQuery("SELECT 1");
+		datasource.setPoolName("Hikari");
+
+		return datasource;
 	}
 
 }
