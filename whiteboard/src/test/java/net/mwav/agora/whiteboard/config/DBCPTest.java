@@ -12,8 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-import net.mwav.agora.whiteboard.config.DBCPConfig;
-
 @SpringBootTest
 class DBCPTest {
 
