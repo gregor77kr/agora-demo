@@ -19,7 +19,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		logger.info(userId);
 
 		User user = new User();
-
 		return user;
 	}
 }

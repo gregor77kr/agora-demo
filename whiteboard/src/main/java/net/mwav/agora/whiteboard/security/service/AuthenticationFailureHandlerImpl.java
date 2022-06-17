@@ -33,8 +33,6 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
 			message = "Sign in failed. Please Retry or contact to Customer service team.";
 		}
 
-		/*		request.setAttribute("message", message);
-				request.getRequestDispatcher("/security/form").forward(request, response);*/
 		response.sendRedirect(request.getContextPath() + "/security/form?message=" + message);
 	}
 }
