@@ -57,6 +57,20 @@ public class DBCPConfigurer {
 				.password(password)
 				.build();
 
+		datasource.addDataSourceProperty("cachePrepStmts", true);
+		datasource.addDataSourceProperty("prepStmtCacheSize", 250);
+		datasource.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
+		datasource.addDataSourceProperty("useServerPrepStmts", true);
+		datasource.addDataSourceProperty("useLocalSessionState", true);
+		datasource.addDataSourceProperty("rewriteBatchedStatements", true);
+		datasource.addDataSourceProperty("cacheResultSetMetadata", true);
+		datasource.addDataSourceProperty("cacheServerConfiguration", true);
+		datasource.addDataSourceProperty("elideSetAutoCommits", true);
+		datasource.addDataSourceProperty("maintainTimeStats", false);
+
+		datasource.setConnectionTimeout(20 * 1000);
+		datasource.setMaximumPoolSize(10);
+		datasource.setMinimumIdle(10);
 		datasource.setConnectionTestQuery("SELECT 1");
 		datasource.setPoolName("Hikari");
 
