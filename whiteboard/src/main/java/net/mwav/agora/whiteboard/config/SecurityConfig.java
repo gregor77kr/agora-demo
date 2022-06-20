@@ -5,7 +5,6 @@ import javax.inject.Inject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 
 import net.mwav.agora.whiteboard.security.service.AuthenticationFailureHandlerImpl;
@@ -27,6 +26,10 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
+				.antMatchers("/resources/**")
+				.permitAll()
+				.antMatchers("/favicon.ico")
+				.permitAll()
 				.antMatchers("/security/**")
 				.permitAll()
 				.antMatchers("/admin/**")
@@ -54,10 +57,4 @@ public class SecurityConfig {
 		return http.build();
 	}
 
-	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web.ignoring()
-				.antMatchers("/resources/**")
-				.antMatchers("/favicon.ico");
-	}
 }
