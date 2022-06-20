@@ -1,15 +1,26 @@
 package net.mwav.agora.whiteboard.security.entity;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@Entity
+@Table(name = "Users")
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = 2350458119234468430L;
 
+	@Id
 	private String userId;
 
 	private String password;
@@ -22,7 +33,9 @@ public class User implements UserDetails {
 
 	private boolean isEnabled;
 
-	private Collection<? extends GrantedAuthority> authorities;
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "userId")
+	private List<UserAuthority> authorities;
 
 	/**
 	 * do not use this method.
@@ -104,7 +117,7 @@ public class User implements UserDetails {
 		this.isEnabled = isEnabled;
 	}
 
-	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+	public void setAuthorities(List<UserAuthority> authorities) {
 		this.authorities = authorities;
 	}
 

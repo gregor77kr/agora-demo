@@ -3,12 +3,8 @@ package net.mwav.agora.whiteboard.security.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.springframework.security.core.GrantedAuthority;
-
 @Entity
-public class Authority implements GrantedAuthority {
-
-	private static final long serialVersionUID = 5792321961413369652L;
+public class Authority {
 
 	@Id
 	private String role;
@@ -16,12 +12,6 @@ public class Authority implements GrantedAuthority {
 	private String roleName;
 
 	private String roleDesc;
-
-	@Override
-	@Deprecated
-	public String getAuthority() {
-		return this.role;
-	}
 
 	public String getRole() {
 		return role;

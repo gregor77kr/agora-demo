@@ -19,7 +19,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-		logger.info(authentication.getName() + "has been sign in");
+		logger.info(authentication.getName() + " has been sign in");
 		response.sendRedirect(request.getContextPath() + "/");
 	}
 
