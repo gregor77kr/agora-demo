@@ -52,6 +52,7 @@ public class DBCPConfig {
 	public DataSource hikariDataSource() {
 		HikariDataSource datasource = DataSourceBuilder.create()
 				.type(HikariDataSource.class)
+				.driverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy")
 				.url(url)
 				.username(username)
 				.password(password)
