@@ -26,31 +26,33 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/resources/**")
-				.permitAll()
-				.antMatchers("/favicon.ico")
-				.permitAll()
-				.antMatchers("/security/**")
-				.permitAll()
-				.antMatchers("/admin/**")
-				.hasAuthority("ADMIN")
-				.anyRequest()
-				.authenticated();
+			.antMatchers("/resources/**")
+			.permitAll()
+			.antMatchers("/js/**")
+			.permitAll()
+			.antMatchers("/favicon.ico")
+			.permitAll()
+			.antMatchers("/security/**")
+			.permitAll()
+			.antMatchers("/admin/**")
+			.hasAuthority("ADMIN")
+			.anyRequest()
+			.authenticated();
 
 		http.formLogin()
-				.loginPage("/security/form")
-				.loginProcessingUrl("/security/signin")
-				.successHandler(authenticationSuccessHandlerImpl)
-				.failureHandler(authenticationFailureHandlerImpl)
-				.usernameParameter("userId")
-				.passwordParameter("password")
-				.permitAll();
+			.loginPage("/security/signin/form")
+			.loginProcessingUrl("/security/signin")
+			.successHandler(authenticationSuccessHandlerImpl)
+			.failureHandler(authenticationFailureHandlerImpl)
+			.usernameParameter("userId")
+			.passwordParameter("password")
+			.permitAll();
 
 		http.logout()
-				.logoutUrl("/security/signout")
-				.logoutSuccessUrl("/security/form")
-				.invalidateHttpSession(true)
-				.deleteCookies("JSESSIONID");
+			.logoutUrl("/security/signout")
+			.logoutSuccessUrl("/security/signin/form")
+			.invalidateHttpSession(true)
+			.deleteCookies("JSESSIONID");
 
 		http.authenticationProvider(authenticationProviderImpl);
 

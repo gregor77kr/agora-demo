@@ -12,13 +12,22 @@ public class SecurityController {
 
 	private static final Logger logger = LoggerFactory.getLogger(SecurityController.class);
 
-	@GetMapping(value = "/security/form")
-	public ModelAndView form(@RequestParam(required = false) String message) {
+	@GetMapping(value = "/security/signin/form")
+	public ModelAndView signinForm(@RequestParam(required = false) String message) {
+		logger.debug("/security/signin/form?message=" + message);
 		ModelAndView mav = new ModelAndView();
-		logger.info(message);
 
 		mav.addObject("message", message);
-		mav.setViewName("security/form");
+		mav.setViewName("security/signin/form");
+		return mav;
+	}
+
+	@GetMapping(value = "/security/signup/form")
+	public ModelAndView signupForm() {
+		logger.debug("/security/signup/form");
+		ModelAndView mav = new ModelAndView();
+
+		mav.setViewName("security/signup/form");
 		return mav;
 	}
 }

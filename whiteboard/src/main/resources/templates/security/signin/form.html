@@ -74,11 +74,12 @@ body {
 				<span th:text="${message}"></span>
 			</div>
 			<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-			<button class="w-100 btn btn-lg btn-secondary" type="button" style="margin-top: 10px;">Sign up</button>
+			<button id="btnSignup" class="w-100 btn btn-lg btn-secondary" type="button" style="margin-top: 10px;">Sign up</button>
 			<p class="mt-5 mb-3 text-muted">&copy; Mwav</p>
 		</form>
 	</main>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-	<script th:src="@{/resources/static/js/utils.js}"></script>
+	<script th:src="@{/js/security/signin/form.js}"></script>
+	<script th:src="@{/js/common/utils.js}"></script>
 </body>
 </html>
