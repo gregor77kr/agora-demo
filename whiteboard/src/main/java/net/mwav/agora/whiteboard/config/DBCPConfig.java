@@ -68,12 +68,11 @@ public class DBCPConfig {
 		datasource.addDataSourceProperty("elideSetAutoCommits", true);
 		datasource.addDataSourceProperty("maintainTimeStats", false);
 
-		datasource.setConnectionTimeout(10000);
-		datasource.setIdleTimeout(600000);
-		datasource.setMaxLifetime(1800000);
+		datasource.setConnectionTimeout(10 * 1000);
+		datasource.setIdleTimeout(4 * 60 * 1000);
+		datasource.setMaxLifetime(4 * 60 * 1000);
 		datasource.setMaximumPoolSize(10);
-		datasource.setMinimumIdle(10);
-		datasource.setConnectionTestQuery("SELECT 1");
+		datasource.setMinimumIdle(3);
 		datasource.setPoolName("Hikari");
 
 		return datasource;
