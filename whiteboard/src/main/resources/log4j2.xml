@@ -2,7 +2,7 @@
 <Configuration status="INFO">
 	<Appenders>
 		<Console name="console" target="SYSTEM_OUT">
-			<PatternLayout pattern="[%-5p] [%d{yyyy-MM-dd HH:mm:ss,SSS}] : %c - %m%n" />
+			<PatternLayout pattern="%d %p [%c:%L] %m%n" />
 		</Console>
 	</Appenders>
 
@@ -36,7 +36,7 @@
 			<AppenderRef ref="console" />
 		</Logger>
 
-		<Logger name="jdbc.connection" additivity="false" level="debug">
+		<Logger name="jdbc.connection" additivity="false" level="off">
 			<AppenderRef ref="console" />
 		</Logger>
 
