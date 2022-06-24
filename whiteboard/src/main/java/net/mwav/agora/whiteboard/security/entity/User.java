@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,12 +24,18 @@ public class User implements UserDetails {
 	private static final long serialVersionUID = 2350458119234468430L;
 
 	@Id
+	@Size(min = 5, max = 20, message = "Id must be between 5 and 20 characters")
 	private String userId;
 
+	@NotNull
+	@Size(min = 5, max = 30, message = "password must be between 5 and 20 characters")
 	private String password;
 
+	@NotNull
+	@Size(min = 2, max = 20, message = "Name must be between 2 and 20 characters")
 	private String userName;
 
+	@Email(message = "Email should be valid")
 	private String email;
 
 	private String region;
@@ -124,8 +133,8 @@ public class User implements UserDetails {
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", password=" + password
-				+ ", userName=" + userName + ", email=" + email
-				+ ", region=" + region + ", isEnabled=" + isEnabled + "]";
+			+ ", userName=" + userName + ", email=" + email
+			+ ", region=" + region + ", isEnabled=" + isEnabled + "]";
 	}
 
 	@Override

@@ -1,11 +1,18 @@
 package net.mwav.agora.whiteboard.security.controller;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import net.mwav.agora.whiteboard.security.entity.User;
 
 @Controller
 public class SecurityController {
@@ -28,6 +35,20 @@ public class SecurityController {
 		ModelAndView mav = new ModelAndView();
 
 		mav.setViewName("security/signup/form");
+		return mav;
+	}
+
+	@PostMapping(value = "/security/signup")
+	public ModelAndView signup(@Valid @ModelAttribute User user, BindingResult bindingResult) {
+		logger.debug("/security/signup");
+		ModelAndView mav = new ModelAndView();
+
+		if (bindingResult.hasErrors()) {
+			mav.setViewName("security/signup/form");
+			return mav;
+		}
+
+		mav.setViewName("redirect:/security/signup/form");
 		return mav;
 	}
 }
