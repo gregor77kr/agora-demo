@@ -6,12 +6,15 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import net.mwav.agora.whiteboard.security.entity.User;
+import net.mwav.agora.whiteboard.security.entity.UserAuthority;
+import net.mwav.agora.whiteboard.security.repository.UserAuthorityRepository;
 import net.mwav.agora.whiteboard.security.repository.UserRepository;
 
 @Component
@@ -22,11 +25,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Inject
 	private UserRepository userRepository;
 
+	@Inject
+	private UserAuthorityRepository userAuthorityRepository;
+
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-		logger.info(userId);
-
 		Optional<User> result = userRepository.findById(userId);
+		logger.debug(userId);
 		if (!result.isPresent()) {
 			throw new UsernameNotFoundException("Invalid id or password");
 		}
@@ -36,6 +41,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	public void addUser(User user) {
+		String userId = user.getUserId();
+		logger.debug(userId);
 
+		Optional<User> result = userRepository.findById(userId);
+		if (result.isPresent()) {
+			throw new DataIntegrityViolationException("Duplicated id");
+		}
+
+		UserAuthority reader = new UserAuthority();
+		reader.setUserId(userId);
+		reader.setRole("READER");
+
+		userRepository.save(user);
+		userAuthorityRepository.save(reader);
 	}
 }

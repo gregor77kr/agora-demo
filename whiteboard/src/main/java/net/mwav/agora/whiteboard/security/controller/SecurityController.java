@@ -3,6 +3,7 @@ package net.mwav.agora.whiteboard.security.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -18,11 +19,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.mwav.agora.whiteboard.security.entity.User;
+import net.mwav.agora.whiteboard.security.service.UserDetailsServiceImpl;
 
 @Controller
 public class SecurityController {
 
 	private static final Logger logger = LoggerFactory.getLogger(SecurityController.class);
+
+	@Inject
+	private UserDetailsServiceImpl userDetailsServiceImpl;
 
 	@GetMapping(value = "/security/signin/form")
 	public ModelAndView signinForm(@RequestParam(required = false) String message) {
@@ -59,9 +64,13 @@ public class SecurityController {
 
 			re.addAttribute("message", message);
 			mav.setViewName("redirect:/security/signup/form");
+			return mav;
 		}
 
-		mav.setViewName("redirect:/security/signup/form");
+		userDetailsServiceImpl.addUser(user);
+
+		re.addAttribute("message", "You have been signed up. Please sign in.");
+		mav.setViewName("redirect:/security/signin/form");
 		return mav;
 	}
 }

@@ -11,9 +11,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -37,13 +40,15 @@ public class User implements UserDetails {
 
 	@Email(message = "Email should be valid")
 	private String email;
-
+	
+	@NotEmpty
 	private String region;
 
 	private boolean isEnabled;
 
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "userId")
+	@NotFound(action = NotFoundAction.IGNORE)
 	private List<UserAuthority> authorities;
 
 	/**
