@@ -34,4 +34,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		User user = result.get();
 		return user;
 	}
+
+	public void addUser(User user) {
+
+	}
 }
