@@ -1,78 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <!-- left-sidebar -->
-<nav th:fragment="left-sidebar" id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-	<div class="position-sticky pt-3">
-		<ul class="nav flex-column">
-			<li class="nav-item">
-				<a class="nav-link" th:href="@{/analytics/dashboard/view}">
-					<span data-feather="home" class="align-text-bottom"></span>
-					Dashboard
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="">
-					<span data-feather="file" class="align-text-bottom"></span>
-					Orders
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="">
-					<span data-feather="shopping-cart" class="align-text-bottom"></span>
-					Products
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="">
-					<span data-feather="users" class="align-text-bottom"></span>
-					Customers
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="">
-					<span data-feather="bar-chart-2" class="align-text-bottom"></span>
-					Reports
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="">
-					<span data-feather="layers" class="align-text-bottom"></span>
-					Integrations
-				</a>
-			</li>
-		</ul>
-		<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
-			<span>Saved reports</span>
-			<a class="link-secondary" href="#" aria-label="Add a new report">
-				<span data-feather="plus-circle" class="align-text-bottom"></span>
-			</a>
-		</h6>
-		<ul class="nav flex-column mb-2">
-			<li class="nav-item">
-				<a class="nav-link" href="">
-					<span data-feather="file-text" class="align-text-bottom"></span>
-					Current month
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="">
-					<span data-feather="file-text" class="align-text-bottom"></span>
-					Last quarter
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="">
-					<span data-feather="file-text" class="align-text-bottom"></span>
-					Social engagement
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="">
-					<span data-feather="file-text" class="align-text-bottom"></span>
-					Year-end sale
-				</a>
-			</li>
-		</ul>
-	</div>
-</nav>
+<div th:fragment="left-sidebar" class="position-sticky pt-3">
+	<ul class="list-unstyled ps-0">
+		<li class="mb-1">
+			<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#analytics-collapse" aria-expanded="true">Analytics</button>
+			<div class="collapse show" id="analytics-collapse">
+				<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+					<li>
+						<a th:href="@{/analytics/dashboard/view}" class="link-dark d-inline-flex text-decoration-none rounded">Dashboard</a>
+					</li>
+					<li>
+						<a th:href="@{/analytics/report/view}" class="link-dark d-inline-flex text-decoration-none rounded">Reports</a>
+					</li>
+				</ul>
+			</div>
+		</li>
+
+		<li class="mb-1">
+			<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#room-collapse" aria-expanded="true">Room</button>
+			<div class="collapse show" id="room-collapse">
+				<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+					<li>
+						<a href="@{/room/list/view}" class="link-dark d-inline-flex text-decoration-none rounded">List</a>
+					</li>
+				</ul>
+			</div>
+		</li>
+
+		<li class="border-top my-3"></li>
+		<li class="mb-1">
+			<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">Account</button>
+			<div class="collapse" id="account-collapse">
+				<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+					<li>
+						<a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New...</a>
+					</li>
+					<li>
+						<a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Profile</a>
+					</li>
+					<li>
+						<a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Settings</a>
+					</li>
+					<li>
+						<a th:href="@{/security/signout}" class="link-dark d-inline-flex text-decoration-none rounded">Sign out</a>
+					</li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+</div>
 </html>
