@@ -1,4 +1,4 @@
-package net.mwav.agora.whiteboard.analytics.dashboard.controller;
+package net.mwav.agora.whiteboard.room.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,17 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import net.mwav.agora.whiteboard.analytics.dashboard.controller.DashboardController;
+
 @Controller
-@RequestMapping(value = "/analytics")
-public class DashboardController {
+@RequestMapping(value = "/room")
+public class RoomController {
 
 	private final Logger logger = LoggerFactory.getLogger(DashboardController.class);
 
-	@GetMapping(value = "/dashboard/view")
-	public ModelAndView view(HttpServletRequest request) {
-		logger.info("/analytics/dashboard/view");
+	@GetMapping(value = "/list/view")
+	public ModelAndView list(HttpServletRequest request) {
+		logger.info("/room/list/view");
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/analytics/dashboard-view");
+		mav.setViewName("/room/list-view");
 		return mav;
 	}
 

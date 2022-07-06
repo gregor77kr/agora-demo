@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import net.mwav.agora.whiteboard.common.util.JsonUtil;
+import net.mwav.agora.common.JsonUtil;
 
 class JSONTest {
 

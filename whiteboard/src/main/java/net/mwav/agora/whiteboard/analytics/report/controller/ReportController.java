@@ -1,4 +1,4 @@
-package net.mwav.agora.whiteboard.analytics.dashboard.controller;
+package net.mwav.agora.whiteboard.analytics.report.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,15 +11,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = "/analytics")
-public class DashboardController {
+public class ReportController {
 
-	private final Logger logger = LoggerFactory.getLogger(DashboardController.class);
+	private final Logger logger = LoggerFactory.getLogger(ReportController.class);
 
-	@GetMapping(value = "/dashboard/view")
+	@GetMapping(value = "/report/view")
 	public ModelAndView view(HttpServletRequest request) {
-		logger.info("/analytics/dashboard/view");
+		logger.info("/analytics/report/view");
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/analytics/dashboard-view");
+		mav.setViewName("/analytics/report-view");
 		return mav;
 	}
 
