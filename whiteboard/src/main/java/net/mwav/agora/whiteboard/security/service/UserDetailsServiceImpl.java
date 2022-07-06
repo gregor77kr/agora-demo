@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import net.mwav.agora.whiteboard.security.constant.Authority;
 import net.mwav.agora.whiteboard.security.entity.User;
 import net.mwav.agora.whiteboard.security.entity.UserAuthority;
 import net.mwav.agora.whiteboard.security.repository.UserAuthorityRepository;
@@ -46,14 +47,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 		Optional<User> result = userRepository.findById(userId);
 		if (result.isPresent()) {
-			throw new DataIntegrityViolationException("Duplicated id");
+			throw new DataIntegrityViolationException("Your input id " + userId + " already exists");
 		}
 
 		UserAuthority reader = new UserAuthority();
 		reader.setUserId(userId);
-		reader.setRole("READER");
+		reader.setRole(Authority.ROLE_ADMIN.getValue());
 
-		userRepository.save(user);
 		userAuthorityRepository.save(reader);
+		userRepository.save(user);
 	}
 }

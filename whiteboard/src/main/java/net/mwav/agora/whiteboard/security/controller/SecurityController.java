@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -67,7 +68,13 @@ public class SecurityController {
 			return mav;
 		}
 
-		userDetailsServiceImpl.addUser(user);
+		try {
+			userDetailsServiceImpl.addUser(user);
+		} catch (DataIntegrityViolationException de) {
+			re.addAttribute("message", de.getMessage());
+			mav.setViewName("redirect:/security/signup/form");
+			return mav;
+		}
 
 		re.addAttribute("message", "You have been signed up. Please sign in.");
 		mav.setViewName("redirect:/security/signin/form");
