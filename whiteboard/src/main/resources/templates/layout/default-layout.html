@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lagn="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>default-layout</title>
+<title>agora</title>
 <!-- css -->
 <link rel="stylesheet" type="text/css" th:href="@{/assets/bootstrap/dist/css/bootstrap.min.css}">
-<link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/common/index.css}">
 <!-- content script -->
 <th:block layout:fragment="css"></th:block>
 </head>
@@ -24,7 +24,7 @@
 	</div>
 	<!-- js -->
 	<script th:src="@{/assets/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
-	<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
 	<script th:src="@{/js/common/utils.js}"></script>
 	<!-- content script -->
 	<th:block layout:fragment="script"></th:block>
