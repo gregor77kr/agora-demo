@@ -1,6 +1,9 @@
 package net.mwav.agora.whiteboard.room.service;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -25,7 +28,7 @@ import reactor.netty.http.client.HttpClient;
 
 @Service
 public class AgoraRoomRestService {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(AgoraRoomRestService.class);
 
 	private final String HEADER_TOKEN = "token";
@@ -38,30 +41,34 @@ public class AgoraRoomRestService {
 	@Inject
 	private AgoraRoomApi agoraRoomApi;
 
-	public Flux<Room> getRooms() throws Exception {
-		String sdkToken = tokenManager.getSdkToken(TokenRole.ADMIN.getValue(), 1000 * 20);
+	public List<Room> getRooms() throws Exception {
+		Map<String, String> map = new HashMap<>();
+		map.put("role", TokenRole.ADMIN.getValue());
+
+		String sdkToken = tokenManager.sdkToken(1000 * 60 * 1, map);
 		String region = "sg";
+		logger.debug(sdkToken);
 
 		HttpClient httpClient = HttpClient.create()
-				.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
-				.responseTimeout(Duration.ofMillis(5000))
-				.doOnConnected(conn -> conn.addHandlerLast(new ReadTimeoutHandler(5000, TimeUnit.MILLISECONDS))
-						.addHandlerLast(new WriteTimeoutHandler(5000, TimeUnit.MILLISECONDS)));
+			.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
+			.responseTimeout(Duration.ofMillis(5000))
+			.doOnConnected(conn -> conn.addHandlerLast(new ReadTimeoutHandler(5000, TimeUnit.MILLISECONDS))
+				.addHandlerLast(new WriteTimeoutHandler(5000, TimeUnit.MILLISECONDS)));
 
 		WebClient client = WebClient.builder()
-				.baseUrl(agoraRoomApi.getAccessPoint())
-				.defaultHeaders(header -> {
-					header.add(HEADER_TOKEN, sdkToken);
-					header.add(HEADER_REGION, region);
-					header.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-				})
-				.clientConnector(new ReactorClientHttpConnector(httpClient))
-				.build();
-		
-		logger.info(client.toString());
+			.baseUrl(agoraRoomApi.getAccessPoint())
+			.defaultHeaders(header -> {
+				header.add(HEADER_TOKEN, sdkToken);
+				header.add(HEADER_REGION, region);
+				header.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+			})
+			.clientConnector(new ReactorClientHttpConnector(httpClient))
+			.build();
 
-		return client.get()
-				.retrieve()
-				.bodyToFlux(Room.class);
+		Flux<Room> response = client.get()
+			.retrieve()
+			.bodyToFlux(Room.class);
+
+		return response.collectList().block();
 	}
 }

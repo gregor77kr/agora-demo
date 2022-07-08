@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import net.mwav.agora.whiteboard.analytics.dashboard.controller.DashboardController;
 import net.mwav.agora.whiteboard.room.entity.Room;
 import net.mwav.agora.whiteboard.room.service.AgoraRoomRestService;
-import reactor.core.publisher.Flux;
 
 @Controller
 @RequestMapping(value = "/room")
@@ -27,24 +26,18 @@ public class RoomController {
 	@Inject
 	private AgoraRoomRestService agoraRoomRestService;
 
-	@GetMapping(value = "/list/view")
+	@GetMapping(value = "/manage/view")
 	public ModelAndView list(HttpServletRequest request) {
 		logger.info("/room/list/view");
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/room/list-view");
+		mav.setViewName("/room/manage-view");
 		return mav;
 	}
 
-	@GetMapping(value = "/list/rooms")
+	@GetMapping(value = "/list")
 	@ResponseBody
-	public String getRooms() throws Exception {
-
-		Flux<Room> result = agoraRoomRestService.getRooms();
-		List<Room> list = result.collectList()
-				.block();
-
-		logger.info(list.toString());
-		return "getRooms";
+	public List<Room> getRooms() throws Exception {
+		return agoraRoomRestService.getRooms();
 	}
 
 }
