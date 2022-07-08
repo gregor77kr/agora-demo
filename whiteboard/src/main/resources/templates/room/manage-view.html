@@ -17,7 +17,7 @@
 
 		<div class="btn-toolbar mb-2 mb-md-0">
 			<div class="btn-group me-2">
-				<button type="button" id="btnSearch" class="btn btn-sm btn-outline-secondary">Search</button>
+				<button type="button" id="btnSearch" class="btn btn-sm btn-outline-secondary" th:data-href="@{/room/list}">Search</button>
 				<button type="button" id="btnExport" class="btn btn-sm btn-outline-secondary">Export</button>
 			</div>
 		</div>
@@ -28,7 +28,7 @@
 
 <th:block layout:fragment="script">
 	<script th:src="@{/assets/toast-ui/grid/js/tui-grid.js}"></script>
-	<script th:src="@{/js/room/list.js}"></script>
+	<script th:src="@{/js/room/manage-view.js}"></script>
 </th:block>
 
 </html>

@@ -49,10 +49,31 @@
 
 	let btnSearch = document.querySelector('#btnSearch');
 	btnSearch && btnSearch.addEventListener('click', (event) => {
-
+		getRoomList().then(data => {
+			grid.resetData(data);
+			grid.resetOriginData();
+		}).catch((error) => {
+			alert(error);
+		});
 	});
 
-	window.addEventListener('DOMContentLoaded', (event) => {
+	async function getRoomList() {
+		let option = {
+			'method': 'GET',
+			'headers': {
+				'Content-Type': 'application/json',
+			}
+		};
 
-	});
+		let url = btnSearch.dataset.href + "?" + new URLSearchParams({
+			'region': 'sg'
+		});
+
+		let request = new Request(url, option);
+		let response = await fetch(request);
+		let json = await response.json();
+
+		return json;
+	}
+
 })();

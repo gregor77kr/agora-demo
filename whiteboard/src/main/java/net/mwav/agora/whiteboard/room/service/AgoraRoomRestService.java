@@ -45,7 +45,7 @@ public class AgoraRoomRestService {
 		Map<String, String> map = new HashMap<>();
 		map.put("role", TokenRole.ADMIN.getValue());
 
-		String sdkToken = tokenManager.sdkToken(1000 * 60 * 1, map);
+		String sdkToken = tokenManager.sdkToken(1000 * 30, map);
 		String region = "sg";
 		logger.debug(sdkToken);
 
