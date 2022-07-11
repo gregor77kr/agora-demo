@@ -21,20 +21,11 @@
 			}, {
 				'header': 'isRecord',
 				'name': 'isRecord',
-				'editor': {
-					'type': 'select',
-					'options': {
-						'listItems': [
-							{ 'text': 'Deluxe', value: '1' },
-							{ 'text': 'EP', value: '2' },
-							{ 'text': 'Single', value: '3' }
-						]
-					}
-				}
+				'editor': 'text'
 			}, {
 				'header': 'isBan',
 				'name': 'isBan',
-				'editor': 'select'
+				'editor': 'text'
 			}, {
 				'header': 'createdAt',
 				'name': 'createdAt',
@@ -50,6 +41,12 @@
 	let btnSearch = document.querySelector('#btnSearch');
 	btnSearch && btnSearch.addEventListener('click', (event) => {
 		getRoomList().then(data => {
+			
+			data.forEach(d => {
+				d.isBan = (d.isBan) ? "Y" : "N";
+				d.isRecord = (d.isRecord) ? "Y" : "N"; 
+			});
+			
 			grid.resetData(data);
 			grid.resetOriginData();
 		}).catch((error) => {
