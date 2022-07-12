@@ -2,13 +2,13 @@ package net.mwav.agora.whiteboard.room.service;
 
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -16,6 +16,7 @@ import net.mwav.agora.common.HttpUtil;
 import net.mwav.agora.token.TokenManager;
 import net.mwav.agora.token.constant.TokenRole;
 import net.mwav.agora.whiteboard.room.api.AgoraRoomApi;
+import net.mwav.agora.whiteboard.room.entity.Room;
 
 @Service
 public class AgoraRoomRestService {
@@ -35,7 +36,12 @@ public class AgoraRoomRestService {
 	@Inject
 	private HttpUtil httpUtil;
 
-	public ResponseEntity<String> getRooms() throws Exception {
+	public Room getRoom() throws Exception {
+		Room room = new Room();
+		return room;
+	}
+
+	public List<Room> getRooms() throws Exception {
 		Map<String, String> map = new HashMap<>();
 		map.put("role", TokenRole.ADMIN.getValue());
 
@@ -45,16 +51,18 @@ public class AgoraRoomRestService {
 
 		WebClient client = httpUtil.getWebClient();
 
-		ResponseEntity<String> response = client.get()
+		List<Room> result = client.get()
 			.uri(new URI(agoraRoomApi.getAccessPoint()))
 			.headers(header -> {
 				header.add(HEADER_TOKEN, sdkToken);
 				header.add(HEADER_REGION, region);
 			})
 			.retrieve()
-			.toEntity(String.class)
+			.bodyToFlux(Room.class)
+			.collectList()
 			.block();
 
-		return response;
+		return result;
 	}
+
 }

@@ -1,7 +1,4 @@
-/**
- * 
- */
-(function() {
+(() => {
 	var Grid = tui.Grid;
 	const grid = new Grid({
 		'el': document.getElementById('grid'),
@@ -41,12 +38,12 @@
 	let btnSearch = document.querySelector('#btnSearch');
 	btnSearch && btnSearch.addEventListener('click', (event) => {
 		getRoomList().then(data => {
-			
+
 			data.forEach(d => {
 				d.isBan = (d.isBan) ? "Y" : "N";
-				d.isRecord = (d.isRecord) ? "Y" : "N"; 
+				d.isRecord = (d.isRecord) ? "Y" : "N";
 			});
-			
+
 			grid.resetData(data);
 			grid.resetOriginData();
 		}).catch((error) => {
