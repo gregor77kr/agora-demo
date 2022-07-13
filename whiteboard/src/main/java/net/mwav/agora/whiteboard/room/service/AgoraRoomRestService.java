@@ -36,8 +36,25 @@ public class AgoraRoomRestService {
 	@Inject
 	private HttpUtil httpUtil;
 
-	public Room getRoom() throws Exception {
-		Room room = new Room();
+	public Room getRoom(String uuid) throws Exception {
+		Map<String, String> map = new HashMap<>();
+		map.put("role", TokenRole.ADMIN.getValue());
+		map.put("uuid", uuid);
+
+		String roomToken = tokenManager.roomToken(1000 * 30, map);
+		String region = "sg";
+
+		WebClient client = httpUtil.getWebClient();
+
+		Room room = client.get()
+				.uri(new URI(agoraRoomApi.getAccessPoint()))
+				.headers(header -> {
+					header.add(HEADER_TOKEN, roomToken);
+					header.add(HEADER_REGION, region);
+				})
+				.retrieve()
+				.bodyToMono(Room.class)
+				.block();
 		return room;
 	}
 
@@ -51,7 +68,7 @@ public class AgoraRoomRestService {
 
 		WebClient client = httpUtil.getWebClient();
 
-		List<Room> result = client.get()
+		List<Room> rooms = client.get()
 				.uri(new URI(agoraRoomApi.getAccessPoint()))
 				.headers(header -> {
 					header.add(HEADER_TOKEN, sdkToken);
@@ -62,7 +79,7 @@ public class AgoraRoomRestService {
 				.collectList()
 				.block();
 
-		return result;
+		return rooms;
 	}
 
 }

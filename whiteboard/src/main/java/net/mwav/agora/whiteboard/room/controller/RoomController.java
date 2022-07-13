@@ -44,7 +44,7 @@ public class RoomController {
 		logger.info(uuid);
 
 		if (ObjectUtils.isEmpty(uuid)) {
-			throw new IllegalStateException("Link is required.");
+			throw new IllegalStateException("uuid is required.");
 		}
 
 		ModelAndView mav = new ModelAndView("room/meeting");
