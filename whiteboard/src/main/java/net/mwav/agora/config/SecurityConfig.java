@@ -47,7 +47,7 @@ public class SecurityConfig {
 			.authenticated();
 
 		http.formLogin()
-			.loginPage("/security/signin/form")
+			.loginPage("/security/signin")
 			.loginProcessingUrl("/security/signin")
 			.successHandler(authenticationSuccessHandlerImpl)
 			.failureHandler(authenticationFailureHandlerImpl)
@@ -57,7 +57,7 @@ public class SecurityConfig {
 
 		http.logout()
 			.logoutUrl("/security/signout")
-			.logoutSuccessUrl("/security/signin/form")
+			.logoutSuccessUrl("/security/signin")
 			.invalidateHttpSession(true)
 			.deleteCookies("JSESSIONID");
 

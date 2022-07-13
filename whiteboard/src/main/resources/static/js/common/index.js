@@ -5,12 +5,7 @@
 
 	btnJoin && btnJoin.addEventListener('click', (event) => {
 		let link = txLink.value;
-
-		joinRoom(link).then(data => {
-			console.log(data);
-		}).catch((error) => {
-			alert(error);
-		});
+		openRoom(link);
 	});
 
 	txLink && txLink.addEventListener('keypress', (event) => {
@@ -19,34 +14,16 @@
 		}
 
 		let link = txLink.value;
-
-		joinRoom(link).then(data => {
-			console.log(data);
-		}).catch((error) => {
-			alert(error);
-		});
+		openRoom(link);
 	});
 
-	async function joinRoom(link) {
+	function openRoom(link) {
 		if (!link) {
 			txLink.focus();
 			return;
 		}
 
-		let option = {
-			'method': 'POST',
-			'headers': {
-				'Content-Type': 'application/json',
-			}, 'body': JSON.stringify({
-				'link': link
-			})
-		};
-
-		let url = btnJoin.dataset.href;
-		let request = new Request(url, option);
-		let response = await fetch(request);
-		let json = await response.json();
-
-		return json;
+		let url = btnJoin.dataset.href + "/" + link;
+		window.open(url);
 	}
 })();

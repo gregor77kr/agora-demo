@@ -54,19 +54,19 @@ public class Room implements Serializable {
 		this.appUUID = appUUID;
 	}
 
-	public boolean isRecord() {
+	public boolean getIsRecord() {
 		return isRecord;
 	}
 
-	public void setRecord(boolean isRecord) {
+	public void setIsRecord(boolean isRecord) {
 		this.isRecord = isRecord;
 	}
 
-	public boolean isBan() {
+	public boolean getIsBan() {
 		return isBan;
 	}
 
-	public void setBan(boolean isBan) {
+	public void setIsBan(boolean isBan) {
 		this.isBan = isBan;
 	}
 
@@ -89,7 +89,7 @@ public class Room implements Serializable {
 	@Override
 	public String toString() {
 		return "Room [roomToken=" + roomToken + ", uuid=" + uuid + ", teamUUID=" + teamUUID + ", appUUID=" + appUUID
-			+ ", isRecord=" + isRecord + ", isBan=" + isBan + ", createdAt=" + createdAt + ", limit=" + limit + "]";
+				+ ", isRecord=" + isRecord + ", isBan=" + isBan + ", createdAt=" + createdAt + ", limit=" + limit + "]";
 	}
 
 	@Override

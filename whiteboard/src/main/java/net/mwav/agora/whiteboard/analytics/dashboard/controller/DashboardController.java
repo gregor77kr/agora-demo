@@ -15,11 +15,11 @@ public class DashboardController {
 
 	private final Logger logger = LoggerFactory.getLogger(DashboardController.class);
 
-	@GetMapping(value = "/dashboard/view")
+	@GetMapping(value = "/dashboard")
 	public ModelAndView view(HttpServletRequest request) {
-		logger.info("/analytics/dashboard/view");
+		logger.info("/analytics/dashboard");
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/analytics/dashboard-view");
+		mav.setViewName("analytics/dashboard");
 		return mav;
 	}
 

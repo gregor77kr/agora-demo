@@ -15,11 +15,11 @@ public class ReportController {
 
 	private final Logger logger = LoggerFactory.getLogger(ReportController.class);
 
-	@GetMapping(value = "/report/view")
+	@GetMapping(value = "/report")
 	public ModelAndView view(HttpServletRequest request) {
-		logger.info("/analytics/report/view");
+		logger.info("/analytics/report");
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/analytics/report-view");
+		mav.setViewName("analytics/report");
 		return mav;
 	}
 

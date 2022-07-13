@@ -30,23 +30,23 @@ public class SecurityController {
 	@Inject
 	private UserDetailsServiceImpl userDetailsServiceImpl;
 
-	@GetMapping(value = "/security/signin/form")
+	@GetMapping(value = "/security/signin")
 	public ModelAndView signinForm(@RequestParam(required = false) String message) {
-		logger.debug("/security/signin/form?message=" + message);
+		logger.debug("/security/signin?message=" + message);
 		ModelAndView mav = new ModelAndView();
 
 		mav.addObject("message", message);
-		mav.setViewName("security/sign-in-form");
+		mav.setViewName("security/signin");
 		return mav;
 	}
 
-	@GetMapping(value = "/security/signup/form")
+	@GetMapping(value = "/security/signup")
 	public ModelAndView signupForm(@RequestParam(required = false) String message) {
-		logger.debug("/security/signup/form");
+		logger.debug("/security/signup");
 		ModelAndView mav = new ModelAndView();
 
 		mav.addObject("message", message);
-		mav.setViewName("security/sign-up-form");
+		mav.setViewName("security/signup");
 		return mav;
 	}
 
@@ -64,7 +64,7 @@ public class SecurityController {
 				.collect(Collectors.joining(""));
 
 			re.addAttribute("message", message);
-			mav.setViewName("redirect:/security/signup/form");
+			mav.setViewName("redirect:/security/signup");
 			return mav;
 		}
 
@@ -72,12 +72,12 @@ public class SecurityController {
 			userDetailsServiceImpl.addUser(user);
 		} catch (DataIntegrityViolationException de) {
 			re.addAttribute("message", de.getMessage());
-			mav.setViewName("redirect:/security/signup/form");
+			mav.setViewName("redirect:/security/signup");
 			return mav;
 		}
 
 		re.addAttribute("message", "You have been signed up. Please sign in.");
-		mav.setViewName("redirect:/security/signin/form");
+		mav.setViewName("redirect:/security/signin");
 		return mav;
 	}
 }

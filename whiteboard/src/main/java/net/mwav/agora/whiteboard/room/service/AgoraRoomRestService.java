@@ -52,15 +52,15 @@ public class AgoraRoomRestService {
 		WebClient client = httpUtil.getWebClient();
 
 		List<Room> result = client.get()
-			.uri(new URI(agoraRoomApi.getAccessPoint()))
-			.headers(header -> {
-				header.add(HEADER_TOKEN, sdkToken);
-				header.add(HEADER_REGION, region);
-			})
-			.retrieve()
-			.bodyToFlux(Room.class)
-			.collectList()
-			.block();
+				.uri(new URI(agoraRoomApi.getAccessPoint()))
+				.headers(header -> {
+					header.add(HEADER_TOKEN, sdkToken);
+					header.add(HEADER_REGION, region);
+				})
+				.retrieve()
+				.bodyToFlux(Room.class)
+				.collectList()
+				.block();
 
 		return result;
 	}
