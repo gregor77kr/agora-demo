@@ -1,6 +1,7 @@
 package net.mwav.agora.whiteboard.room.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -14,21 +15,21 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import net.mwav.agora.whiteboard.analytics.dashboard.controller.DashboardController;
 import net.mwav.agora.whiteboard.room.entity.Room;
-import net.mwav.agora.whiteboard.room.service.AgoraRoomRestService;
+import net.mwav.agora.whiteboard.room.service.RoomService;
 
 @Controller
 @RequestMapping(value = "/room")
 public class RoomController {
 
-	private final Logger logger = LoggerFactory.getLogger(DashboardController.class);
+	private final Logger logger = LoggerFactory.getLogger(RoomController.class);
 
 	@Inject
-	private AgoraRoomRestService agoraRoomRestService;
+	private RoomService roomService;
 
 	@GetMapping(value = "/manage")
 	public ModelAndView list(HttpServletRequest request) {
@@ -41,14 +42,29 @@ public class RoomController {
 	@GetMapping(value = "/meeting/{uuid}")
 	public ModelAndView meeting(@PathVariable String uuid) throws Exception {
 		logger.info("/room/meeting");
-		logger.info(uuid);
 
 		if (ObjectUtils.isEmpty(uuid)) {
 			throw new IllegalStateException("uuid is required.");
 		}
 
 		ModelAndView mav = new ModelAndView("room/meeting");
+		mav.addObject("uuid", uuid);
 		return mav;
+	}
+
+	@GetMapping(value = "/info")
+	@ResponseBody
+	public ResponseEntity<Object> getRoomInfo(@RequestParam String uuid) throws Exception {
+		logger.info("/room/info");
+
+		if (ObjectUtils.isEmpty(uuid)) {
+			throw new IllegalStateException("uuid is required.");
+		}
+
+		Map<String, Object> info = roomService.getRoomInfo(uuid);
+		ResponseEntity<Object> response = new ResponseEntity<Object>(info, HttpStatus.OK);
+
+		return response;
 	}
 
 	@GetMapping(value = "/list")
@@ -56,7 +72,7 @@ public class RoomController {
 	public ResponseEntity<Object> getRooms() throws Exception {
 		logger.info("/room/list");
 
-		List<Room> rooms = agoraRoomRestService.getRooms();
+		List<Room> rooms = roomService.getRooms();
 		ResponseEntity<Object> response = new ResponseEntity<Object>(rooms, HttpStatus.OK);
 
 		return response;

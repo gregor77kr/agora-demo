@@ -6,8 +6,6 @@ public class Room implements Serializable {
 
 	private static final long serialVersionUID = -2979691637349482502L;
 
-	private String roomToken;
-
 	private String uuid;
 
 	private String teamUUID;
@@ -21,14 +19,6 @@ public class Room implements Serializable {
 	private String createdAt;
 
 	private int limit;
-
-	public String getRoomToken() {
-		return roomToken;
-	}
-
-	public void setRoomToken(String roomToken) {
-		this.roomToken = roomToken;
-	}
 
 	public String getUuid() {
 		return uuid;
@@ -88,8 +78,8 @@ public class Room implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Room [roomToken=" + roomToken + ", uuid=" + uuid + ", teamUUID=" + teamUUID + ", appUUID=" + appUUID
-				+ ", isRecord=" + isRecord + ", isBan=" + isBan + ", createdAt=" + createdAt + ", limit=" + limit + "]";
+		return "Room [uuid=" + uuid + ", teamUUID=" + teamUUID + ", appUUID=" + appUUID + ", isRecord=" + isRecord
+			+ ", isBan=" + isBan + ", createdAt=" + createdAt + ", limit=" + limit + "]";
 	}
 
 	@Override

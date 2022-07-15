@@ -19,9 +19,9 @@ import net.mwav.agora.whiteboard.room.api.AgoraRoomApi;
 import net.mwav.agora.whiteboard.room.entity.Room;
 
 @Service
-public class AgoraRoomRestService {
+public class AgoraApiService {
 
-	private static final Logger logger = LoggerFactory.getLogger(AgoraRoomRestService.class);
+	private static final Logger logger = LoggerFactory.getLogger(AgoraApiService.class);
 
 	private final String HEADER_TOKEN = "token";
 
@@ -36,48 +36,65 @@ public class AgoraRoomRestService {
 	@Inject
 	private HttpUtil httpUtil;
 
-	public Room getRoom(String uuid) throws Exception {
+	public String getSdkToken() throws Exception {
+		Map<String, String> map = new HashMap<>();
+		map.put("role", TokenRole.ADMIN.getValue());
+
+		String sdkToken = tokenManager.sdkToken(1000 * 30, map);
+
+		return sdkToken;
+	}
+
+	public String getRoomToken(String uuid) throws Exception {
 		Map<String, String> map = new HashMap<>();
 		map.put("role", TokenRole.ADMIN.getValue());
 		map.put("uuid", uuid);
 
-		String roomToken = tokenManager.roomToken(1000 * 30, map);
+		String roomToken = tokenManager.roomToken(1000 * 60, map);
+		return roomToken;
+	}
+
+	public String getAppIdentifier() {
+		String appIdentifier = tokenManager.getAppIdentifier();
+		return appIdentifier;
+	}
+
+	public Room getRoom(String uuid) throws Exception {
+		String roomToken = getRoomToken(uuid);
 		String region = "sg";
 
 		WebClient client = httpUtil.getWebClient();
 
 		Room room = client.get()
-				.uri(new URI(agoraRoomApi.getAccessPoint()))
-				.headers(header -> {
-					header.add(HEADER_TOKEN, roomToken);
-					header.add(HEADER_REGION, region);
-				})
-				.retrieve()
-				.bodyToMono(Room.class)
-				.block();
+			.uri(new URI(agoraRoomApi.getAccessPoint() + "/" + uuid))
+			.headers(header -> {
+				header.add(HEADER_TOKEN, roomToken);
+				header.add(HEADER_REGION, region);
+			})
+			.retrieve()
+			.bodyToMono(Room.class)
+			.block();
+
 		return room;
 	}
 
 	public List<Room> getRooms() throws Exception {
-		Map<String, String> map = new HashMap<>();
-		map.put("role", TokenRole.ADMIN.getValue());
-
-		String sdkToken = tokenManager.sdkToken(1000 * 30, map);
+		String sdkToken = getSdkToken();
 		String region = "sg";
 		logger.debug(sdkToken);
 
 		WebClient client = httpUtil.getWebClient();
 
 		List<Room> rooms = client.get()
-				.uri(new URI(agoraRoomApi.getAccessPoint()))
-				.headers(header -> {
-					header.add(HEADER_TOKEN, sdkToken);
-					header.add(HEADER_REGION, region);
-				})
-				.retrieve()
-				.bodyToFlux(Room.class)
-				.collectList()
-				.block();
+			.uri(new URI(agoraRoomApi.getAccessPoint()))
+			.headers(header -> {
+				header.add(HEADER_TOKEN, sdkToken);
+				header.add(HEADER_REGION, region);
+			})
+			.retrieve()
+			.bodyToFlux(Room.class)
+			.collectList()
+			.block();
 
 		return rooms;
 	}
