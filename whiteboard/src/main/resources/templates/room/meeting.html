@@ -10,17 +10,21 @@
 <body>
 	<div class="container-fluid">
 		<main>
-			<input type="hidden" id="txUuid" th:value="${uuid}">
-
 			<div id="toolbar" class="btn-group" role="group"></div>
 
 			<div id="whiteboard" class="p-5 my-4 rounded-3 border border-secondary" style="width: 100%; height: 80vh;"></div>
 		</main>
+		
 	</div>
 
+	<script th:inline="javascript">
+		const uuid = /*[[${uuid}]]*/ "";
+		const appIdentifier = /*[[${appIdentifier}]]*/ "";
+		const roomToken = /*[[${roomToken}]]*/ "";
+	</script>
 	<script src="https://sdk.netless.link/white-web-sdk/2.15.16.js"></script>
 	<script th:src="@{/assets/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
 	<script th:src="@{/js/common/utils.js}"></script>
-	<script th:src="@{/js/room/meeting.js}"></script>
+	<script th:src="@{/js/room/meeting.js}" th:inline="javascript"></script>
 </body>
 </html>

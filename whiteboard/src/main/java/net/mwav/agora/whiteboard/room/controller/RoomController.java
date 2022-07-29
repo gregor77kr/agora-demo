@@ -15,7 +15,6 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -47,24 +46,11 @@ public class RoomController {
 			throw new IllegalStateException("uuid is required.");
 		}
 
-		ModelAndView mav = new ModelAndView("room/meeting");
-		mav.addObject("uuid", uuid);
-		return mav;
-	}
-
-	@GetMapping(value = "/info")
-	@ResponseBody
-	public ResponseEntity<Object> getRoomInfo(@RequestParam String uuid) throws Exception {
-		logger.info("/room/info");
-
-		if (ObjectUtils.isEmpty(uuid)) {
-			throw new IllegalStateException("uuid is required.");
-		}
-
 		Map<String, Object> info = roomService.getRoomInfo(uuid);
-		ResponseEntity<Object> response = new ResponseEntity<Object>(info, HttpStatus.OK);
 
-		return response;
+		ModelAndView mav = new ModelAndView("room/meeting");
+		mav.addAllObjects(info);
+		return mav;
 	}
 
 	@GetMapping(value = "/list")
