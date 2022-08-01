@@ -9,18 +9,38 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<main>
-			<div id="toolbar" class="btn-group" role="group"></div>
+		<div class="row vh-100">
+			<!-- left-sidebar -->
+			<nav class="col-1 bg-light sidebar">
+				<ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+					<li class="nav-item">
+						<img alt="" th:src="@{/image/tool-box/arrow.svg}">
+					</li>
+					<li class="nav-item">
+						<img alt="" th:src="@{/image/tool-box/clear.svg}">
+					</li>
+					<li class="nav-item">
+						<img alt="" th:src="@{/image/tool-box/click.svg}">
+					</li>
+					
+				</ul>
+			</nav>
 
+			<!-- content -->
+			<main class="col-11 border border-secondary">
+				<div id="whiteboard" style="width: 100%; height: 100%;"></div>
+			</main>
+		</div>
+		<!-- 		<main>
 			<div id="whiteboard" class="p-5 my-4 rounded-3 border border-secondary" style="width: 100%; height: 80vh;"></div>
-		</main>
-		
+		</main> -->
+
 	</div>
 
 	<script th:inline="javascript">
-		const uuid = /*[[${uuid}]]*/ "";
-		const appIdentifier = /*[[${appIdentifier}]]*/ "";
-		const roomToken = /*[[${roomToken}]]*/ "";
+		const uuid = /*[[${uuid}]]*/"";
+		const appIdentifier = /*[[${appIdentifier}]]*/"";
+		const roomToken = /*[[${roomToken}]]*/"";
 	</script>
 	<script src="https://sdk.netless.link/white-web-sdk/2.15.16.js"></script>
 	<script th:src="@{/assets/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
