@@ -11,7 +11,7 @@ var whiteWebSdk, room;
 
 		room = whiteWebSdk.joinRoom({
 			'uuid': uuid,
-			'uid': crypto.randomUUID(),
+			'uid': 'gregor77kr',
 			'roomToken': roomToken
 		}).then((room) => {
 			room.bindHtmlElement(document.querySelector("#whiteboard"));
