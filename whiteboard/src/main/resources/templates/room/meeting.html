@@ -26,43 +26,43 @@
 			<div class="tool-mid-box-left">
 				<div class="tool-box-cell-box-left">
 					<div class="tool-box-cell">
-						<img th:src="@{/image/tool-box/click.svg}" alt="click" data-currentApplianceName="clicker">
+						<img id="imgClicker" th:src="@{/image/tool-box/click.svg}" alt="clicker" data-appliancename="clicker" th:data-hover="@{/image/tool-box/click-active.svg}" th:data-hout="@{/image/tool-box/click.svg}">
 					</div>
 				</div>
 				<div class="tool-box-cell-box-left">
 					<div class="tool-box-cell">
-						<img th:src="@{/image/tool-box/selector.svg}" alt="selector" data-currentApplianceName="selector">
+						<img id="imgSelector" th:src="@{/image/tool-box/selector.svg}" alt="selector" data-appliancename="selector" th:data-hover="@{/image/tool-box/selector-active.svg}" th:data-hout="@{/image/tool-box/selector.svg}">
 					</div>
 				</div>
 				<div class="tool-box-cell-box-left">
 					<div class="tool-box-cell">
-						<img th:src="@{/image/tool-box/pencil.svg}" alt="pencil" data-currentApplianceName="pencil">
-						<img class="tool-box-cell-subscript" th:src="@{/image/tool-box/subscript.svg}" alt="subscriptUrl">
+						<img id="imgPencil" th:src="@{/image/tool-box/pencil.svg}" alt="pencil" data-appliancename="pencil" th:data-hover="@{/image/tool-box/pencil-active.svg}" th:data-hout="@{/image/tool-box/pencil.svg}">
+						<img id="imgPencilSubscript" class="tool-box-cell-subscript" th:src="@{/image/tool-box/subscript.svg}" alt="subscriptUrl">
 					</div>
 				</div>
 				<div class="tool-box-cell-box-left">
 					<div class="tool-box-cell">
-						<img th:src="@{/image/tool-box/text.svg}" alt="text" data-currentApplianceName="text">
+						<img id="imgText" th:src="@{/image/tool-box/text.svg}" alt="text" data-appliancename="text" th:data-hover="@{/image/tool-box/text-active.svg}" th:data-hout="@{/image/tool-box/text.svg}">
 					</div>
 				</div>
 				<div class="tool-box-cell-box-left">
 					<div class="tool-box-cell">
-						<img th:src="@{/image/tool-box/eraser.svg}" alt="eraser" data-currentApplianceName="eraser">
+						<img id="imgEraser" th:src="@{/image/tool-box/eraser.svg}" alt="eraser" data-appliancename="eraser" th:data-hover="@{/image/tool-box/eraser-active.svg}" th:data-hout="@{/image/tool-box/eraser.svg}">
 					</div>
 				</div>
 				<div class="tool-box-cell-box-left">
 					<div class="tool-box-cell">
-						<img th:src="@{/image/tool-box/arrow.svg}" alt="arrow" data-currentApplianceName="arrow">
+						<img id="imgArrow" th:src="@{/image/tool-box/arrow.svg}" alt="arrow" data-appliancename="arrow" th:data-hover="@{/image/tool-box/arrow-active.svg}" th:data-hout="@{/image/tool-box/arrow.svg}">
 					</div>
 				</div>
 				<div class="tool-box-cell-box-left">
 					<div class="tool-box-cell">
-						<img th:src="@{/image/tool-box/laserPointer.svg}" alt="laserPointer" data-currentApplianceName="laserPointer">
+						<img id="imgLaserPointer" th:src="@{/image/tool-box/laserPointer.svg}" alt="laserPointer" data-appliancename="laserPointer" th:data-hover="@{/image/tool-box/laserPointer-active.svg}" th:data-hout="@{/image/tool-box/laserPointer.svg}">
 					</div>
 				</div>
 				<div class="tool-box-cell-box-left">
 					<div class="tool-box-cell">
-						<img th:src="@{/image/tool-box/hand.svg}" alt="hand" data-currentApplianceName="hand">
+						<img id="imgHand" th:src="@{/image/tool-box/hand.svg}" alt="hand" data-appliancename="hand" th:data-hover="@{/image/tool-box/hand-active.svg}" th:data-hout="@{/image/tool-box/hand.svg}">
 					</div>
 				</div>
 				<div class="tool-box-cell-box-left">
@@ -73,7 +73,7 @@
 				</div>
 				<div class="tool-box-cell-box-left">
 					<div class="tool-box-cell">
-						<img th:src="@{/image/tool-box/clear.svg}" alt="clear">
+						<img id="imgClear" th:src="@{/image/tool-box/clear.svg}" alt="clear" th:data-hover="@{/image/tool-box/clear-active.svg}" th:data-hout="@{/image/tool-box/clear.svg}">
 					</div>
 				</div>
 				<div>
@@ -393,7 +393,66 @@
 				<div class="component" style="width: 100%; height: 100%; position: absolute; overflow: hidden; z-index: 7;"></div>
 			</div>
 		</div>
+
 	</div>
+	<!-- #root -->
+
+	<div id="divPallet" style="position: absolute; top: 0px; left: 0px; width: 100%;">
+		<div>
+			<div class="ant-popover ant-popover-placement-right ant-popover-hidden" style="left: -951px; top: -649px; transform-origin: -4px 50%; pointer-events: none;">
+				<div class="ant-popover-content">
+					<div class="ant-popover-arrow">
+						<span class="ant-popover-arrow-content"></span>
+					</div>
+					<div class="ant-popover-inner" role="tooltip">
+						<div class="ant-popover-inner-content">
+							<div class="palette-box">
+								<div class="tool-box-stroke-box">
+									<div class="tool-box-input-box">
+										<input class="palette-stroke-slider" type="range" min="1" max="32" value="4">
+									</div>
+									<div class="tool-box-mask-box">
+										<img
+											src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTcwcHgiIGhlaWdodD0iMjlweCIgdmlld0JveD0iMCAwIDE3MCAyOSIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggNTUuMSAoNzgxMzYpIC0gaHR0cHM6Ly9za2V0Y2hhcHAuY29tIC0tPgogICAgPHRpdGxlPm1hc2sgKDEpPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGcgaWQ9IumhtemdojEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJtYXNrLSgxKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC4wMDAwMDAsIC0wLjE3NzUxNSkiIGZpbGw9IiNGRkZGRkYiIGZpbGwtcnVsZT0ibm9uemVybyI+CiAgICAgICAgICAgIDxwYXRoIGQ9Ik0xNzAsMC4xNzc1MTQ3OTMgTDE3MCwyOS4xNzc1MTQ4IEwwLDI5LjE3NzUxNDggTDAsMC4xNzc1MTQ3OTMgTDE3MCwwLjE3NzUxNDc5MyBaIE0xNTUuNzAyODc1LDcuNzA1MDg3MTcgTDE1NS40MzQxMjMsNy43MTA1MDE2MyBMOC40OTkwNzQ3MSwxMy40MjIwMTY2IEM3LjgyMTQyNjc5LDEzLjQ0ODM1ODMgNy4yODU3MTQyOSwxNC4wMDI2NzM5IDcuMjg1NzE0MjksMTQuNjc3NTE0OCBDNy4yODU3MTQyOSwxNS4zNTIzNTU3IDcuODIxNDI2NzksMTUuOTA2NjcxMyA4LjQ5OTA3NDcxLDE1LjkzMzAxMyBMOC40OTkwNzQ3MSwxNS45MzMwMTMgTDE1NS40MzQxMjMsMjEuNjQ0NTI4IEMxNTUuNTI1MjQzLDIxLjY0ODA2OTYgMTU1LjYxNjQyNCwyMS42NDk4NDEgMTU1LjcwNzYxMywyMS42NDk4NDEgQzE1OS41NzcyOTIsMjEuNjQ5ODQxIDE2Mi43MTQyODYsMTguNTI4MjI0MiAxNjIuNzE0Mjg2LDE0LjY3NzUxNDggQzE2Mi43MTQyODYsMTQuNTg2NzcyNiAxNjIuNzEyNTA2LDE0LjQ5NjAzODggMTYyLjcwODk0NywxNC40MDUzNjU1IEMxNjIuNTU3OTAyLDEwLjU1NzU5MTEgMTU5LjMwMDg1Myw3LjU2MDE5ODI1IDE1NS40MzQxMjMsNy43MTA1MDE2MyBMMTU1LjcwMjg3NSw3LjcwNTA4NzE3IFoiIGlkPSJtYXNrIj48L3BhdGg+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4="
+											alt="mask">
+									</div>
+									<div class="tool-box-under-box-2" style="width: 19.5px; background-color: rgb(236, 52, 85);"></div>
+									<div class="tool-box-under-box"></div>
+								</div>
+								<div class="cell-box">
+									<div class="cell-mid-color" style="border-color: rgb(236, 52, 85);">
+										<div class="cell-color" style="background-color: rgb(236, 52, 85);"></div>
+									</div>
+									<div class="cell-mid-color" style="border-color: rgb(255, 255, 255);">
+										<div class="cell-color" style="background-color: rgb(245, 173, 70);"></div>
+									</div>
+									<div class="cell-mid-color" style="border-color: rgb(255, 255, 255);">
+										<div class="cell-color" style="background-color: rgb(96, 232, 198);"></div>
+									</div>
+									<div class="cell-mid-color" style="border-color: rgb(255, 255, 255);">
+										<div class="cell-color" style="background-color: rgb(87, 178, 252);"></div>
+									</div>
+									<div class="cell-mid-color" style="border-color: rgb(255, 255, 255);">
+										<div class="cell-color" style="background-color: rgb(0, 91, 246);"></div>
+									</div>
+									<div class="cell-mid-color" style="border-color: rgb(255, 255, 255);">
+										<div class="cell-color" style="background-color: rgb(158, 81, 182);"></div>
+									</div>
+									<div class="cell-mid-color" style="border-color: rgb(255, 255, 255);">
+										<div class="cell-color" style="background-color: rgb(104, 171, 93);"></div>
+									</div>
+									<div class="cell-mid-color" style="border-color: rgb(255, 255, 255);">
+										<div class="cell-color" style="background-color: rgb(29, 33, 41);"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- pallet -->
 
 	<script th:inline="javascript">
 		const uuid = /*[[${uuid}]]*/"";
