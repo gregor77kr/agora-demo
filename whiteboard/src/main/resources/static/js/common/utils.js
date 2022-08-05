@@ -1,28 +1,16 @@
-var httpUtil = (function() {
-	async function _fetch(request) {
-		const response = await fetch(request);
-		const json = await response.json();
+(() => {
 
-		if (response.ok) {
-			return json;
-		}
-
-		const error = new Error();
-		error.name = response.status;
-		error.message = 'code : ' + json.error.code + ', title : ' + json.error.title;
-		throw error;
+	function addEvent(parent, type, selector, listener) {
+		parent.addEventListener(type, function(event) {
+			if (event.target.matches(selector + ', ' + selector + ' *')) {
+				listener.apply(event.target.closest(selector), arguments);
+			}
+		}, false);
 	}
 
-	function handleError(error) {
-		alert(error);
+	if (document && !document.on) {
+		document.on = function(type, selector, listener) {
+			addEvent(document, type, selector, listener);
+		};
 	}
-
-	return {
-		fetch: _fetch,
-		handleError: handleError
-	};
-}());
-
-const utils = (function() {
-
-}());
+})();
