@@ -1,4 +1,4 @@
-export class Zoom {
+class Zoom {
 	constructor() {
 		this.dividingRule = Object.freeze([
 			0.10737418240000011,
@@ -25,4 +25,10 @@ export class Zoom {
 		]);
 	}
 
+	rendor() {
+		return 
+	}
+
 }
+
+export { Zoom };
