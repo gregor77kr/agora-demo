@@ -1,52 +1,36 @@
 var whiteWebSdk, room;
 
 (() => {
+	whiteWebSdk = new WhiteWebSdk({
+		appIdentifier: appIdentifier,
+		region: "sg"
+	});
 
 	document.addEventListener('DOMContentLoaded', (event) => {
-		whiteWebSdk = new WhiteWebSdk({
-			appIdentifier: appIdentifier,
-			region: "sg"
-		});
-
-		room = whiteWebSdk.joinRoom({
-			'uuid': uuid,
-			'uid': 'gregor77kr',
-			'roomToken': roomToken
-		}).then((room) => {
-			room.bindHtmlElement(document.querySelector("#whiteboard"));
-			return room;
-		}).catch((error) => {
-			console.error(error);
-		});
+		joinRoom();
 	});
 
 	document.on('click', '#imgClicker, #imgSelector, #imgPencil, #imgText, #imgEraser, #imgArrow, #imgLaserPointer, #imgHand', (event) => {
 		const appliancename = event.target.dataset.appliancename;
-		
+
 		const divColor = document.querySelector('#divColor');
 		let selectedColor = divColor.style.backgroundColor || 'rgb(255, 255, 255)';
-		
+
 		selectedColor = selectedColor.replace(/ /g, '').replace('rgb(', '').replace(')', '').split(',').map(s => Number(s));
 
 		if (appliancename) {
-			room.then(r => {
-				r.setMemberState({
-					currentApplianceName: appliancename,
-					shapeType: "pentagram",
-					strokeColor: selectedColor,
-					strokeWidth: 12,
-					textSize: 40,
-				});
-				return r;
+			room.setMemberState({
+				currentApplianceName: appliancename,
+				shapeType: "pentagram",
+				strokeColor: selectedColor,
+				strokeWidth: 12,
+				textSize: 40,
 			});
 		}
 	});
 
 	document.on('click', '#imgClear', (event) => {
-		room.then(r => {
-			r.cleanCurrentScene();
-			return r;
-		});
+		room.cleanCurrentScene();
 	});
 
 	document.on('click', '#imgColorSubscript', (event) => {
@@ -88,14 +72,11 @@ var whiteWebSdk, room;
 		let selectedColor = event.target.style.backgroundColor || 'rgb(255, 255, 255)';
 		const divColor = document.querySelector('#divColor');
 		divColor.style.backgroundColor = selectedColor;
-		
+
 		selectedColor = selectedColor.replace(/ /g, '').replace('rgb(', '').replace(')', '').split(',').map(s => Number(s));
 
-		room.then(r => {
-			r.setMemberState({
-				strokeColor: selectedColor
-			});
-			return r;
+		room.setMemberState({
+			strokeColor: selectedColor
 		});
 	});
 
@@ -115,4 +96,23 @@ var whiteWebSdk, room;
 		}
 	});
 
+
+	async function joinRoom() {
+		room = await whiteWebSdk.joinRoom({
+			'uuid': uuid,
+			'uid': 'gregor77kr',
+			'roomToken': roomToken
+		}).then(r => {
+			r.bindHtmlElement(document.querySelector("#whiteboard"));
+			return r;
+		}).then(r => {
+			const memberState = r.state.memberState || {};
+			const color = memberState.strokeColor || [255, 255, 255];
+			const divColor = document.querySelector('#divColor');
+			divColor.style.backgroundColor = 'rgb(' + color.join(',') + ')';
+			return r;
+		}).catch((error) => {
+			console.error(error);
+		});
+	}
 })();
