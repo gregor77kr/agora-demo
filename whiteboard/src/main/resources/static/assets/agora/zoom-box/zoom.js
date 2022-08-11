@@ -26,7 +26,7 @@ class Zoom {
 	}
 
 	rendor() {
-		return 
+		return ;
 	}
 
 }

@@ -1,5 +1,5 @@
 import { } from './utils/utils.js';
-import {Zoom} from './zoom-controller/zoom.js';
+import {Zoom} from './zoom-box/zoom.js';
 
 (() => {
 	var whiteWebSdk;
