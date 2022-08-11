@@ -108,15 +108,14 @@
 				</div>
 				<div class="scale-controller-cut-line"></div>
 				<div class="scale-controller-btn">
-					<img th:src="@{/image/zoom/less.svg}" alt="less">
+					<img id="imgZoomLess" th:src="@{/image/zoom/less.svg}" alt="less">
 				</div>
 				<div>
 					100
 					<span style="opacity: 0.6;">%</span>
 				</div>
 				<div class="scale-controller-btn">
-					<img th:src="@{/image/zoom/plus.svg}" alt="plus">
-
+					<img id="imgZoomPlus" th:src="@{/image/zoom/plus.svg}" alt="plus">
 				</div>
 			</div>
 		</div>
@@ -456,7 +455,6 @@
 		const roomToken = /*[[${roomToken}]]*/"";
 	</script>
 	<script src="https://sdk.netless.link/white-web-sdk/2.15.16.js"></script>
-	<script th:src="@{/js/common/utils.js}"></script>
-	<script th:src="@{/js/room/meeting.js}"></script>
+	<script type="module" th:src="@{/js/room/meeting.js}"></script>
 </body>
 </html>

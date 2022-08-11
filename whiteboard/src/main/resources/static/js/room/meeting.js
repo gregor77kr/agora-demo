@@ -1,10 +1,9 @@
-var whiteWebSdk, room;
+import { } from '../common/utils.js';
+import { Zoom } from './zoom.js';
 
 (() => {
-	whiteWebSdk = new WhiteWebSdk({
-		appIdentifier: appIdentifier,
-		region: "sg"
-	});
+	var whiteWebSdk;
+	var room;
 
 	document.addEventListener('DOMContentLoaded', (event) => {
 		joinRoom();
@@ -96,8 +95,12 @@ var whiteWebSdk, room;
 		}
 	});
 
-
 	async function joinRoom() {
+		whiteWebSdk = new WhiteWebSdk({
+			appIdentifier: appIdentifier,
+			region: "sg"
+		});
+
 		room = await whiteWebSdk.joinRoom({
 			'uuid': uuid,
 			'uid': 'gregor77kr',
@@ -114,5 +117,10 @@ var whiteWebSdk, room;
 		}).catch((error) => {
 			console.error(error);
 		});
+
+		// export
+		window.whiteWebSdk = whiteWebSdk;
+		window.room = room;
 	}
+
 })();
