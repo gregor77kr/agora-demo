@@ -1,12 +1,21 @@
 import { } from './utils/utils.js';
-import {Zoom} from './zoom-box/zoom.js';
+import { ZoomBox } from './zoom-box/zoom.js';
+import { ToolBox } from './tool-box/tool.js';
 
 (() => {
-	var whiteWebSdk;
-	var room;
-
 	document.addEventListener('DOMContentLoaded', (event) => {
-		joinRoom();
+		joinRoom().then(r => {
+			window.room = r;
+			r.bindHtmlElement(document.querySelector("#whiteboard"));
+			return r;
+		}).then(r => {
+
+			let zoomBox = new ZoomBox();
+			zoomBox.render();
+
+			let toolBox = new ToolBox();
+			toolBox.render();
+		});
 	});
 
 	document.on('click', '#imgClicker, #imgSelector, #imgPencil, #imgText, #imgEraser, #imgArrow, #imgLaserPointer, #imgHand', (event) => {
@@ -95,32 +104,25 @@ import {Zoom} from './zoom-box/zoom.js';
 		}
 	});
 
-	async function joinRoom() {
-		whiteWebSdk = new WhiteWebSdk({
+	function joinRoom() {
+		window.whiteWebSdk = new WhiteWebSdk({
 			appIdentifier: appIdentifier,
 			region: "sg"
 		});
 
-		room = await whiteWebSdk.joinRoom({
+		return whiteWebSdk.joinRoom({
 			'uuid': uuid,
 			'uid': 'gregor77kr',
 			'roomToken': roomToken
-		}).then(r => {
-			r.bindHtmlElement(document.querySelector("#whiteboard"));
-			return r;
-		}).then(r => {
+		}).catch((error) => {
+			console.error(error);
+		});/*.then(r => {
 			const memberState = r.state.memberState || {};
 			const color = memberState.strokeColor || [255, 255, 255];
 			const divColor = document.querySelector('#divColor');
 			divColor.style.backgroundColor = 'rgb(' + color.join(',') + ')';
 			return r;
-		}).catch((error) => {
-			console.error(error);
-		});
-
-		// export
-		window.whiteWebSdk = whiteWebSdk;
-		window.room = room;
+		})*/
 	}
 
 })();
