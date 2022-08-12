@@ -1,9 +1,16 @@
+import { } from '../utils/utils.js';
+
 class ToolBox {
 
-	constructor() {
-		this.room = window.room;
+	constructor(room) {
+		this.room = room;
 
-		this.components = [
+		this.state = {
+			strokeEnable: false,
+			isClearActive: false
+		};
+
+		this.buttons = [
 			{
 				applianceName: 'clicker',
 				icon: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+Y2xpY2tAMXg8L3RpdGxlPgogICAgPGcgaWQ9Iumhtemdoi0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogICAgICAgIDxnIGlkPSLnvJbnu4QtNCIgc3Ryb2tlPSIjNDQ0RTYwIj4KICAgICAgICAgICAgPHBvbHlnb24gaWQ9Iui3r+W+hC01IiBwb2ludHM9IjcgNS4wNzE3OTY3NyA4LjY2OTg3Mjk4IDE3Ljk2NDEwMTYgMTEuOTA5MDkwOSAxMy41NzQ1OTE2IDE3LjMzMDEyNyAxMi45NjQxMDE2Ij48L3BvbHlnb24+CiAgICAgICAgICAgIDxsaW5lIHgxPSIxMiIgeTE9IjEzLjczMjA1MDgiIHgyPSIxNSIgeTI9IjE4LjkyODIwMzIiIGlkPSLot6/lvoQtNyI+PC9saW5lPgogICAgICAgICAgICA8cG9seWdvbiBpZD0i6Lev5b6ELTUiIHBvaW50cz0iNyA1LjA3MTc5Njc3IDguNjY5ODcyOTggMTcuOTY0MTAxNiAxMS45MDkwOTA5IDEzLjU3NDU5MTYgMTcuMzMwMTI3IDEyLjk2NDEwMTYiPjwvcG9seWdvbj4KICAgICAgICAgICAgPGxpbmUgeDE9IjEyIiB5MT0iMTMuNzMyMDUwOCIgeDI9IjE1IiB5Mj0iMTguOTI4MjAzMiIgaWQ9Iui3r+W+hC03Ij48L2xpbmU+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=',
@@ -61,18 +68,101 @@ class ToolBox {
 				applianceName: 'upload',
 				icon: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+55+p5b2i5aSH5Lu9IDI1PC90aXRsZT4KICAgIDxnIGlkPSLpobXpnaItMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgICAgICA8ZyBpZD0i5YiH5Zu+IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtOC4wMDAwMDAsIC0yOTYuMDAwMDAwKSIgc3Ryb2tlPSIjNDQ0RTYwIj4KICAgICAgICAgICAgPGcgaWQ9Iue8lue7hC0yIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4LjAwMDAwMCwgMjk2LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPHBvbHlsaW5lIGlkPSLot6/lvoQtOCIgcG9pbnRzPSI4IDEyIDYgMTIgNiAxOCAxOCAxOCAxOCAxMiAxNiAxMiI+PC9wb2x5bGluZT4KICAgICAgICAgICAgICAgIDxsaW5lIHgxPSIxMiIgeTE9IjYiIHgyPSIxMiIgeTI9IjE0IiBpZD0i6Lev5b6ELTE3Ij48L2xpbmU+CiAgICAgICAgICAgICAgICA8cG9seWxpbmUgaWQ9Iui3r+W+hC05IiBwb2ludHM9IjEwIDcgMTIgNSAxNCA3Ij48L3BvbHlsaW5lPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=',
 				iconActive: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMCAwIDQwIDQwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPg0KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggNjAuMSAoODgxMzMpIC0gaHR0cHM6Ly9za2V0Y2guY29tIC0tPg0KICAgIDx0aXRsZT51cGxvYWQtcHJlc3NlZDwvdGl0bGU+DQogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+DQogICAgPGcgaWQ9Iumhtemdoi00IiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4NCiAgICAgICAgPGcgaWQ9IldoaXRlYm9hcmQtR3VpZGVsaW5lcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTczNi4wMDAwMDAsIC0yOTUuMDAwMDAwKSI+DQogICAgICAgICAgICA8ZyBpZD0idXBsb2FkLXByZXNzZWQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDczNi4wMDAwMDAsIDI5NS4wMDAwMDApIj4NCiAgICAgICAgICAgICAgICA8cmVjdCBpZD0i55+p5b2i5aSH5Lu9LTE4IiBmaWxsPSIjRkZGRkZGIiBvcGFjaXR5PSIwLjAxIiB4PSIwIiB5PSIwIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSIyIj48L3JlY3Q+DQogICAgICAgICAgICAgICAgPHBvbHlsaW5lIGlkPSLot6/lvoQtMTHlpIfku70tNSIgc3Ryb2tlPSIjMzM4MUZGIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIwLjAwMDAwMCwgMTQuMDAwMDAwKSByb3RhdGUoLTI3MC4wMDAwMDApIHRyYW5zbGF0ZSgtMjAuMDAwMDAwLCAtMTQuMDAwMDAwKSAiIHBvaW50cz0iMjIgMTggMjAgMTYgMTggMTQgMjAgMTIgMjIgMTAiPjwvcG9seWxpbmU+DQogICAgICAgICAgICAgICAgPHBvbHlsaW5lIGlkPSJTdHJva2UtMTHlpIfku70tMyIgc3Ryb2tlPSIjMzM4MUZGIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHBvaW50cz0iMjggMjQgMjggMjggMTIgMjggMTIgMjQiPjwvcG9seWxpbmU+DQogICAgICAgICAgICAgICAgPGxpbmUgeDE9IjIwIiB5MT0iMjQiIHgyPSIyMCIgeTI9IjEyIiBpZD0iU3Ryb2tlLTPlpIfku70tMyIgc3Ryb2tlPSIjMzM4MUZGIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjwvbGluZT4NCiAgICAgICAgICAgIDwvZz4NCiAgICAgICAgPC9nPg0KICAgIDwvZz4NCjwvc3ZnPg0K'
-			},
-
-			{
-				applianceName: 'subscript',
-				icon: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNHB4IiBoZWlnaHQ9IjRweCIgdmlld0JveD0iMCAwIDQgNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggNTUuMSAoNzgxMzYpIC0gaHR0cHM6Ly9za2V0Y2hhcHAuY29tIC0tPgogICAgPHRpdGxlPuefqeW9ojwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSLpobXpnaIxIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8cG9seWdvbiBpZD0i55+p5b2iIiBmaWxsPSIjNDQ0RTYwIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHBvaW50cz0iNCAwIDQgNCAwIDQiPjwvcG9seWdvbj4KICAgIDwvZz4KPC9zdmc+',
-				iconActive: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgd2lkdGg9IjRweCIgaGVpZ2h0PSI0cHgiIHZpZXdCb3g9IjAgMCA0IDQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+DQogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA1NS4xICg3ODEzNikgLSBodHRwczovL3NrZXRjaGFwcC5jb20gLS0+DQogICAgPHRpdGxlPuefqeW9ojwvdGl0bGU+DQogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+DQogICAgPGcgaWQ9IumhtemdojEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPg0KICAgICAgICA8cG9seWdvbiBpZD0i55+p5b2iIiBmaWxsPSIjMzM4MUZGIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHBvaW50cz0iNCAwIDQgNCAwIDQiPjwvcG9seWdvbj4NCiAgICA8L2c+DQo8L3N2Zz4='
 			}
 		];
+
+		this.colorCell = {
+			applianceName: 'subscript',
+			icon: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iNHB4IiBoZWlnaHQ9IjRweCIgdmlld0JveD0iMCAwIDQgNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggNTUuMSAoNzgxMzYpIC0gaHR0cHM6Ly9za2V0Y2hhcHAuY29tIC0tPgogICAgPHRpdGxlPuefqeW9ojwvdGl0bGU+CiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4KICAgIDxnIGlkPSLpobXpnaIxIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8cG9seWdvbiBpZD0i55+p5b2iIiBmaWxsPSIjNDQ0RTYwIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHBvaW50cz0iNCAwIDQgNCAwIDQiPjwvcG9seWdvbj4KICAgIDwvZz4KPC9zdmc+',
+			iconActive: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgd2lkdGg9IjRweCIgaGVpZ2h0PSI0cHgiIHZpZXdCb3g9IjAgMCA0IDQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+DQogICAgPCEtLSBHZW5lcmF0b3I6IFNrZXRjaCA1NS4xICg3ODEzNikgLSBodHRwczovL3NrZXRjaGFwcC5jb20gLS0+DQogICAgPHRpdGxlPuefqeW9ojwvdGl0bGU+DQogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+DQogICAgPGcgaWQ9IumhtemdojEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPg0KICAgICAgICA8cG9seWdvbiBpZD0i55+p5b2iIiBmaWxsPSIjMzM4MUZGIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHBvaW50cz0iNCAwIDQgNCAwIDQiPjwvcG9seWdvbj4NCiAgICA8L2c+DQo8L3N2Zz4='
+		};
+
+		this.cleanCell = {
+			applianeName: 'clear',
+			icon: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+57yW57uEPC90aXRsZT4KICAgIDxnIGlkPSLpobXpnaItMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgICAgICA8ZyBpZD0i5bCP54+t6K++IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTYuMDAwMDAwLCAtNTQ5LjAwMDAwMCkiIHN0cm9rZT0iIzQ0NEU2MCI+CiAgICAgICAgICAgIDxnIGlkPSLnvJbnu4QtMzUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDguMDAwMDAwLCAyODUuMDAwMDAwKSI+CiAgICAgICAgICAgICAgICA8ZyBpZD0i57yW57uELTkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDguMDAwMDAwLCAyNjQuMDAwMDAwKSI+CiAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTEwLjY2NjY2NjcsOS42NjY2NjY2NyBMMTAuNjY2NjY2Nyw2LjE2NjY2NjY3IEMxMC42NjY2NjY3LDUuNTIyMzM0NDYgMTEuMTg5MDAxMSw1IDExLjgzMzMzMzMsNSBDMTIuNDc3NjY1NSw1IDEzLDUuNTIyMzM0NDYgMTMsNi4xNjY2NjY2NyBMMTMsOS42NjY2NjY2NyBMMTMsOS42NjY2NjY2NyBDMTQuMjg4NjY0NCw5LjY2NjY2NjY3IDE1LjMzMzMzMzMsMTAuNzExMzM1NiAxNS4zMzMzMzMzLDEyIEwxNS4zMzMzMzMzLDEyIEwxNS4zMzMzMzMzLDEyIEw4LjMzMzMzMzMzLDEyIEM4LjMzMzMzMzMzLDEwLjcxMTMzNTYgOS4zNzgwMDIyNSw5LjY2NjY2NjY3IDEwLjY2NjY2NjcsOS42NjY2NjY2NyBMMTAuNjY2NjY2Nyw5LjY2NjY2NjY3IEwxMC42NjY2NjY3LDkuNjY2NjY2NjcgWiIgaWQ9Iui3r+W+hC00NyI+PC9wYXRoPgogICAgICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xNS4zMzMzMzMzLDEyIEwxNy42NjY2NjY3LDE3LjgzMzMzMzMgQzEzLjgxNTkwNzgsMTguNjAzNDg1MSA5Ljg1MDc1ODg2LDE4LjYwMzQ4NTEgNiwxNy44MzMzMzMzIEw4LjMzMzMzMzMzLDEyIiBpZD0i6Lev5b6EIj48L3BhdGg+CiAgICAgICAgICAgICAgICAgICAgPGxpbmUgeDE9IjExLjgzMzMzMzMiIHkxPSIxNy44MzMzMzMzIiB4Mj0iMTEuODMzMzMzMyIgeTI9IjE1LjUiIGlkPSLot6/lvoQtNDkiPjwvbGluZT4KICAgICAgICAgICAgICAgICAgICA8bGluZSB4MT0iOS41IiB5MT0iMTcuODMzMzMzMyIgeDI9IjkuNSIgeTI9IjE1LjUiIGlkPSLot6/lvoQtNTEiPjwvbGluZT4KICAgICAgICAgICAgICAgICAgICA8bGluZSB4MT0iMTQuMTY2NjY2NyIgeTE9IjE3LjgzMzMzMzMiIHgyPSIxNC4xNjY2NjY3IiB5Mj0iMTUuNSIgaWQ9Iui3r+W+hC01MiI+PC9saW5lPgogICAgICAgICAgICAgICAgPC9nPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=',
+			iconActive: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgd2lkdGg9IjI0cHgiIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAwIDI0IDI0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPg0KICAgIDx0aXRsZT7nvJbnu4Q8L3RpdGxlPg0KICAgIDxnIGlkPSLpobXpnaItMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4NCiAgICAgICAgPGcgaWQ9IuWIh+WbviIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTQ4LjAwMDAwMCwgLTQ3Ni4wMDAwMDApIiBzdHJva2U9IiMzMzgxRkYiPg0KICAgICAgICAgICAgPGcgaWQ9Iue8lue7hC055aSH5Lu9IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0OC4wMDAwMDAsIDQ3Ni4wMDAwMDApIj4NCiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTAuNjY2NjY2Nyw5LjY2NjY2NjY3IEwxMC42NjY2NjY3LDYuMTY2NjY2NjcgQzEwLjY2NjY2NjcsNS41MjIzMzQ0NiAxMS4xODkwMDExLDUgMTEuODMzMzMzMyw1IEMxMi40Nzc2NjU1LDUgMTMsNS41MjIzMzQ0NiAxMyw2LjE2NjY2NjY3IEwxMyw5LjY2NjY2NjY3IEwxMyw5LjY2NjY2NjY3IEMxNC4yODg2NjQ0LDkuNjY2NjY2NjcgMTUuMzMzMzMzMywxMC43MTEzMzU2IDE1LjMzMzMzMzMsMTIgTDE1LjMzMzMzMzMsMTIgTDE1LjMzMzMzMzMsMTIgTDguMzMzMzMzMzMsMTIgQzguMzMzMzMzMzMsMTAuNzExMzM1NiA5LjM3ODAwMjI1LDkuNjY2NjY2NjcgMTAuNjY2NjY2Nyw5LjY2NjY2NjY3IEwxMC42NjY2NjY3LDkuNjY2NjY2NjcgTDEwLjY2NjY2NjcsOS42NjY2NjY2NyBaIiBpZD0i6Lev5b6ELTQ3Ij48L3BhdGg+DQogICAgICAgICAgICAgICAgPHBhdGggZD0iTTE1LjMzMzMzMzMsMTIgTDE3LjY2NjY2NjcsMTcuODMzMzMzMyBDMTMuODE1OTA3OCwxOC42MDM0ODUxIDkuODUwNzU4ODYsMTguNjAzNDg1MSA2LDE3LjgzMzMzMzMgTDguMzMzMzMzMzMsMTIiIGlkPSLot6/lvoQiPjwvcGF0aD4NCiAgICAgICAgICAgICAgICA8bGluZSB4MT0iMTEuODMzMzMzMyIgeTE9IjE3LjgzMzMzMzMiIHgyPSIxMS44MzMzMzMzIiB5Mj0iMTUuNSIgaWQ9Iui3r+W+hC00OSI+PC9saW5lPg0KICAgICAgICAgICAgICAgIDxsaW5lIHgxPSI5LjUiIHkxPSIxNy44MzMzMzMzIiB4Mj0iOS41IiB5Mj0iMTUuNSIgaWQ9Iui3r+W+hC01MSI+PC9saW5lPg0KICAgICAgICAgICAgICAgIDxsaW5lIHgxPSIxNC4xNjY2NjY3IiB5MT0iMTcuODMzMzMzMyIgeDI9IjE0LjE2NjY2NjciIHkyPSIxNS41IiBpZD0i6Lev5b6ELTUyIj48L2xpbmU+DQogICAgICAgICAgICA8L2c+DQogICAgICAgIDwvZz4NCiAgICA8L2c+DQo8L3N2Zz4='
+		};
+
 	}
 
 	clickAppliance(applianceName) {
-		alert(applianceName);
+		this.room.setMemberState({
+			currentApplianceName: applianceName
+		});
+	}
+
+	componentToHex(number) {
+		const hex = number.toString(16);
+		return hex.length == 1 ? "0" + hex : hex;
+	}
+
+	rgbToHex(rgb) {
+		return "#" + this.componentToHex(rgb[0]) + this.componentToHex(rgb[1]) + this.componentToHex(rgb[2]);
+	}
+
+	renderColorContext() {
+
+	}
+
+	renderColorCell() {
+		const applianceName = this.colorCell.applianceName;
+		const iconUrl = this.colorCell.icon;
+		const strokeColor = this.room.state.memberState.strokeColor;
+
+		const toolBox = document.createElement('div');
+		toolBox.classList.add('tool-box-cell-box-left');
+
+		const toolCell = document.createElement('div');
+		toolCell.classList.add('tool-box-cell');
+
+		const toolCellColor = document.createElement('div');
+		toolCellColor.classList.add('tool-box-cell-color');
+		toolCellColor.style.background = this.rgbToHex(strokeColor);
+
+		const img = document.createElement('img');
+		img.classList.add('tool-box-cell-subscript');
+		img.src = iconUrl;
+		img.alt = applianceName;
+
+		toolCell.appendChild(toolCellColor);
+		toolCell.appendChild(img);
+
+		toolBox.appendChild(toolCell);
+
+		return toolBox;
+	}
+
+	renderCleanCell() {
+		const applianceName = this.cleanCell.applianceName;
+		const isClearActivce = this.state.isClearActive;
+		const iconUrl = isClearActivce ? this.cleanCell.iconActive : this.cleanCell.icon;
+
+		const toolBox = document.createElement('div');
+		toolBox.classList.add('tool-box-cell-box-left');
+
+		const toolCell = document.createElement('div');
+		toolCell.classList.add('tool-box-cell');
+
+		const img = document.createElement('img');
+		img.src = iconUrl;
+		img.alt = applianceName;
+
+		toolCell.appendChild(img);
+		toolBox.appendChild(toolCell);
+
+		toolBox.addEventListener('mouseEnter', event => {
+			this.state.isClearActive = true;
+		}, false);
+
+		toolBox.addEventListener('mouseLeave', event => {
+			this.state.isClearActive = false;
+		}, false);
+
+		toolBox.addEventListener('click', event => {
+			room.cleanCurrentScene();
+		}, false);
+
+		return toolBox;
 	}
 
 	renderButton(component) {
@@ -82,34 +172,39 @@ class ToolBox {
 		const isSelected = currentApplianceName === applianceName;
 		const iconUrl = isSelected ? component.iconActive : component.icon;
 
-		let button = '';
-		button += '    <div class="tool-box-cell-box-left">';
-		button += '        <div class="tool-box-cell">';
-		button += '            <img src="' + iconUrl + '" alt="' + applianceName + '" >';
-		button += '        </div>';
-		button += '    </div>';
+		const toolBox = document.createElement('div');
+		toolBox.classList.add('tool-box-cell-box-left');
 
-		return button;
-	}
+		const toolCell = document.createElement('div');
+		toolCell.classList.add('tool-box-cell');
 
-	renderNodes() {
-		let nodes = '';
+		const img = document.createElement('img');
+		img.src = iconUrl;
+		img.alt = applianceName;
 
-		this.components.forEach((component, i) => {
-			nodes += this.renderButton(component);
-		});
+		toolCell.appendChild(img);
+		toolBox.appendChild(toolCell);
 
-		return nodes;
+		toolBox.addEventListener('click', event => {
+			this.clickAppliance(applianceName);
+		}, false);
+
+		return toolBox;
 	}
 
 	render() {
 		const parent = document.querySelector('.tool-box-out');
-		let html = '';
-		html += '<div class="tool-mid-box-left">';
-		html += this.renderNodes();
-		html += '</div>';
 
-		parent.innerHTML = html;
+		const toolMid = document.createElement('div');
+		toolMid.classList.add('tool-mid-box-left');
+		parent.appendChild(toolMid);
+
+		this.buttons.forEach((component, i) => {
+			toolMid.appendChild(this.renderButton(component));
+		});
+
+		toolMid.appendChild(this.renderColorCell());
+		toolMid.appendChild(this.renderCleanCell());
 	}
 }
 

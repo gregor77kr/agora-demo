@@ -10,35 +10,12 @@ import { ToolBox } from './tool-box/tool.js';
 			return r;
 		}).then(r => {
 
-			let zoomBox = new ZoomBox();
+			let zoomBox = new ZoomBox(r);
 			zoomBox.render();
 
-			let toolBox = new ToolBox();
+			let toolBox = new ToolBox(r);
 			toolBox.render();
 		});
-	});
-
-	document.on('click', '#imgClicker, #imgSelector, #imgPencil, #imgText, #imgEraser, #imgArrow, #imgLaserPointer, #imgHand', (event) => {
-		const appliancename = event.target.dataset.appliancename;
-
-		const divColor = document.querySelector('#divColor');
-		let selectedColor = divColor.style.backgroundColor || 'rgb(255, 255, 255)';
-
-		selectedColor = selectedColor.replace(/ /g, '').replace('rgb(', '').replace(')', '').split(',').map(s => Number(s));
-
-		if (appliancename) {
-			room.setMemberState({
-				currentApplianceName: appliancename,
-				shapeType: "pentagram",
-				strokeColor: selectedColor,
-				strokeWidth: 12,
-				textSize: 40,
-			});
-		}
-	});
-
-	document.on('click', '#imgClear', (event) => {
-		room.cleanCurrentScene();
 	});
 
 	document.on('click', '#imgColorSubscript', (event) => {
@@ -116,13 +93,7 @@ import { ToolBox } from './tool-box/tool.js';
 			'roomToken': roomToken
 		}).catch((error) => {
 			console.error(error);
-		});/*.then(r => {
-			const memberState = r.state.memberState || {};
-			const color = memberState.strokeColor || [255, 255, 255];
-			const divColor = document.querySelector('#divColor');
-			divColor.style.backgroundColor = 'rgb(' + color.join(',') + ')';
-			return r;
-		})*/
+		});
 	}
 
 })();
