@@ -41,15 +41,15 @@ class ZoomBox {
 			10,
 		]);
 
-		this.tempRuleIndex = 1;
+		this.tempRuleIndex = null;
 
 		this.syncDuration = 200;
 
 		this.syncRuleIndexTimer = null;
 	}
 
-	writeCurrentScale() {
-		const currentScale = Math.ceil(this.room.state.cameraState.scale * 100);
+	writeCurrentScale(scale) {
+		const currentScale = Math.ceil(scale * 100);
 		const divCurrentScale = document.querySelector('.scale-controller-scale');
 		divCurrentScale.textContent = currentScale + '%';
 	}
@@ -97,7 +97,7 @@ class ZoomBox {
 			this.zoomChange(1);
 		}
 
-		this.writeCurrentScale();
+		this.writeCurrentScale(1);
 	}
 
 	zoomChange(scale) {
@@ -111,7 +111,7 @@ class ZoomBox {
 	moveRuleIndex(deltaIndex) {
 		const scale = this.room.state.cameraState.scale;
 
-		if (this.tempRuleIndex === undefined) {
+		if (!this.tempRuleIndex) {
 			this.tempRuleIndex = this.readRuleIndexByScale(scale);
 		}
 		this.tempRuleIndex += deltaIndex;
@@ -127,7 +127,7 @@ class ZoomBox {
 		this.delaySyncRuleIndex();
 		this.zoomChange(targetScale);
 
-		this.writeCurrentScale();
+		this.writeCurrentScale(targetScale);
 	}
 
 	render() {
@@ -194,7 +194,7 @@ class ZoomBox {
 		}, false);
 
 		parent.appendChild(divScale);
-		this.writeCurrentScale();
+		this.writeCurrentScale(1);
 	}
 }
 

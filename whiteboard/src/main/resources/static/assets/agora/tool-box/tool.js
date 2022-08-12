@@ -1,4 +1,6 @@
 import { } from '../utils/utils.js';
+import { ColorTool } from './colorTool.js';
+import { Popover } from '../utils/antd.js';
 
 class ToolBox {
 
@@ -100,8 +102,17 @@ class ToolBox {
 		return "#" + this.componentToHex(rgb[0]) + this.componentToHex(rgb[1]) + this.componentToHex(rgb[2]);
 	}
 
-	renderColorContext() {
+	onRoomStateChanged(modifyState) {
+	}
 
+	renderColorContext() {
+		const divPalletBox = document.createElement('div');
+		divPalletBox.classList.add('palette-box');
+
+		const colorTool = new ColorTool(this.room);
+		divPalletBox.appendChild(colorTool.render());
+
+		return divPalletBox;
 	}
 
 	renderColorCell() {
@@ -109,27 +120,36 @@ class ToolBox {
 		const iconUrl = this.colorCell.icon;
 		const strokeColor = this.room.state.memberState.strokeColor;
 
-		const toolBox = document.createElement('div');
-		toolBox.classList.add('tool-box-cell-box-left');
+		// color cell
+		const divToolBox = document.createElement('div');
+		divToolBox.classList.add('tool-box-cell-box-left');
 
-		const toolCell = document.createElement('div');
-		toolCell.classList.add('tool-box-cell');
+		const divToolCell = document.createElement('div');
+		divToolCell.classList.add('tool-box-cell');
 
-		const toolCellColor = document.createElement('div');
-		toolCellColor.classList.add('tool-box-cell-color');
-		toolCellColor.style.background = this.rgbToHex(strokeColor);
+		const divToolCellColor = document.createElement('div');
+		divToolCellColor.classList.add('tool-box-cell-color');
+		divToolCellColor.style.background = this.rgbToHex(strokeColor);
 
 		const img = document.createElement('img');
 		img.classList.add('tool-box-cell-subscript');
 		img.src = iconUrl;
 		img.alt = applianceName;
 
-		toolCell.appendChild(toolCellColor);
-		toolCell.appendChild(img);
+		divToolCell.appendChild(divToolCellColor);
+		divToolCell.appendChild(img);
 
-		toolBox.appendChild(toolCell);
+		divToolBox.appendChild(divToolCell);
 
-		return toolBox;
+		// pallet
+		const popover = new Popover({
+			target: img,
+			content: this.renderColorContext()
+		});
+		const colorPopover = popover.render();
+		document.body.appendChild(colorPopover);
+
+		return divToolBox;
 	}
 
 	renderCleanCell() {
@@ -137,32 +157,32 @@ class ToolBox {
 		const isClearActivce = this.state.isClearActive;
 		const iconUrl = isClearActivce ? this.cleanCell.iconActive : this.cleanCell.icon;
 
-		const toolBox = document.createElement('div');
-		toolBox.classList.add('tool-box-cell-box-left');
+		const divToolBox = document.createElement('div');
+		divToolBox.classList.add('tool-box-cell-box-left');
 
-		const toolCell = document.createElement('div');
-		toolCell.classList.add('tool-box-cell');
+		const divToolCell = document.createElement('div');
+		divToolCell.classList.add('tool-box-cell');
 
 		const img = document.createElement('img');
 		img.src = iconUrl;
 		img.alt = applianceName;
 
-		toolCell.appendChild(img);
-		toolBox.appendChild(toolCell);
+		divToolCell.appendChild(img);
+		divToolBox.appendChild(divToolCell);
 
-		toolBox.addEventListener('mouseEnter', event => {
+		divToolBox.addEventListener('mouseEnter', event => {
 			this.state.isClearActive = true;
 		}, false);
 
-		toolBox.addEventListener('mouseLeave', event => {
+		divToolBox.addEventListener('mouseLeave', event => {
 			this.state.isClearActive = false;
 		}, false);
 
-		toolBox.addEventListener('click', event => {
+		divToolBox.addEventListener('click', event => {
 			room.cleanCurrentScene();
 		}, false);
 
-		return toolBox;
+		return divToolBox;
 	}
 
 	renderButton(component) {
@@ -172,24 +192,24 @@ class ToolBox {
 		const isSelected = currentApplianceName === applianceName;
 		const iconUrl = isSelected ? component.iconActive : component.icon;
 
-		const toolBox = document.createElement('div');
-		toolBox.classList.add('tool-box-cell-box-left');
+		const divToolBox = document.createElement('div');
+		divToolBox.classList.add('tool-box-cell-box-left');
 
-		const toolCell = document.createElement('div');
-		toolCell.classList.add('tool-box-cell');
+		const divToolCell = document.createElement('div');
+		divToolCell.classList.add('tool-box-cell');
 
 		const img = document.createElement('img');
 		img.src = iconUrl;
 		img.alt = applianceName;
 
-		toolCell.appendChild(img);
-		toolBox.appendChild(toolCell);
+		divToolCell.appendChild(img);
+		divToolBox.appendChild(divToolCell);
 
-		toolBox.addEventListener('click', event => {
+		divToolBox.addEventListener('click', event => {
 			this.clickAppliance(applianceName);
 		}, false);
 
-		return toolBox;
+		return divToolBox;
 	}
 
 	render() {
@@ -205,6 +225,8 @@ class ToolBox {
 
 		toolMid.appendChild(this.renderColorCell());
 		toolMid.appendChild(this.renderCleanCell());
+
+		room.callbacks.on("onRoomStateChanged", this.onRoomStateChanged);
 	}
 }
 
