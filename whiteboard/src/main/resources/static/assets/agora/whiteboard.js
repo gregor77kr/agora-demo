@@ -9,12 +9,13 @@ import { ToolBox } from './tool-box/tool.js';
 			r.bindHtmlElement(document.querySelector("#whiteboard"));
 			return r;
 		}).then(r => {
-
 			let zoomBox = new ZoomBox(r);
 			zoomBox.render();
 
 			let toolBox = new ToolBox(r);
 			toolBox.render();
+			
+			return r;
 		});
 	});
 

@@ -16,7 +16,6 @@ class Popover {
 		const target = this.props.target;
 
 		// show, hide
-		const clientRect = target.getBoundingClientRect();
 		const isActive = target.dataset.toggle;
 
 		if (isActive === 'true') {
