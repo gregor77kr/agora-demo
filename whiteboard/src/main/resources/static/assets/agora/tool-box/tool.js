@@ -213,7 +213,14 @@ class ToolBox {
 		parent.appendChild(toolMid);
 
 		this.buttons.forEach((component, i) => {
-			toolMid.appendChild(this.renderButton(component));
+			const current = toolMid.appendChild(this.renderButton(component));
+			current.addEventListener('click', event => {
+				const imgs = toolMid.querySelectorAll('img');
+				
+				this.buttons.forEach((c, j) => {
+					imgs[j].src = (i === j) ? c.iconActive : c.icon;
+				});
+			}, false);
 		});
 
 		toolMid.appendChild(this.renderColorCell());
