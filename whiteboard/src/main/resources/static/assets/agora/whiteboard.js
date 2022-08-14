@@ -1,6 +1,7 @@
 import { } from './utils/utils.js';
 import { ZoomBox } from './zoom-box/zoom.js';
 import { ToolBox } from './tool-box/tool.js';
+import { RedoUndo } from './redo-undo-box/redo-undo.js';
 
 (() => {
 	document.addEventListener('DOMContentLoaded', (event) => {
@@ -14,7 +15,10 @@ import { ToolBox } from './tool-box/tool.js';
 
 			let toolBox = new ToolBox(r);
 			toolBox.render();
-			
+
+			let redoUndo = new RedoUndo(r);
+			redoUndo.render();
+
 			return r;
 		});
 	});
