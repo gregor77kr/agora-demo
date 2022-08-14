@@ -115,22 +115,29 @@ class ToolBox {
 
 		const divToolCellColor = document.createElement('div');
 		divToolCellColor.classList.add('tool-box-cell-color');
-		divToolCellColor.style.background = this.rgbToHex(strokeColor);
+		divToolCellColor.style.backgroundColor = this.rgbToHex(strokeColor);
 
 		const img = document.createElement('img');
 		img.classList.add('tool-box-cell-subscript');
 		img.src = iconUrl;
 		img.alt = applianceName;
+		img.style.width = '6px';
 
 		divToolCell.appendChild(divToolCellColor);
 		divToolCell.appendChild(img);
 
 		divToolBox.appendChild(divToolCell);
 
+		// event bubble
+		const divPalletBox = this.renderColorContext();
+		divPalletBox.addEventListener('click', event => {
+			divToolCellColor.style.backgroundColor = event.target.style.backgroundColor;
+		}, false);
+
 		// pallet
 		const popover = new Popover({
 			target: img,
-			content: this.renderColorContext()
+			content: divPalletBox
 		});
 		const colorPopover = popover.render();
 		document.body.appendChild(colorPopover);

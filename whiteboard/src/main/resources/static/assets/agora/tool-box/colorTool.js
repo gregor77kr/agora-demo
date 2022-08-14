@@ -43,9 +43,6 @@ class ColorTool {
 		// find current
 		const index = this.colors.indexOf(hex.toUpperCase());
 		divCellMidColors[index].style.borderColor = hex;
-
-		const divToolCellColor = document.querySelector('.tool-box-cell-color');
-		divToolCellColor.style.background = hex;
 	}
 
 	isMatchColor(color) {
