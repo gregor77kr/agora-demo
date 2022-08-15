@@ -8,6 +8,15 @@ import { PageBox } from './page-box/page.js';
 class Whiteboard {
 	constructor(props) {
 		this.props = props;
+
+		this.state = {
+			isMenuVisible: false,
+			isFileOpen: false
+		};
+	}
+
+	handlePreviewState = (state) => {
+		this.state.isMenuVisible = state;
 	}
 
 	render() {
@@ -65,6 +74,10 @@ class Whiteboard {
 		divPagePreview.appendChild(imgPagePreview);
 		divPageMidBox.appendChild(divPagePreview);
 
+		divPagePreview.addEventListener('click', event => {
+			this.handlePreviewState(true);
+		}, false);
+
 		divPageBox.appendChild(divPageMidBox);
 		divRealTimeBox.appendChild(divPageBox);
 
@@ -75,7 +88,6 @@ class Whiteboard {
 		divRealTimeBox.appendChild(divWhiteBoard);
 
 		root.appendChild(divRealTimeBox);
-
 		this.props.room.bindHtmlElement(divWhiteBoard);
 	}
 }
