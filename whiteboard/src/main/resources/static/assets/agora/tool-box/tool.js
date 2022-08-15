@@ -137,7 +137,8 @@ class ToolBox {
 		// pallet
 		const popover = new Popover({
 			target: img,
-			content: divPalletBox
+			content: divPalletBox,
+			placement: 'right'
 		});
 		const colorPopover = popover.render();
 		document.body.appendChild(colorPopover);
@@ -206,17 +207,14 @@ class ToolBox {
 	}
 
 	render() {
-		const parent = document.querySelector('.tool-box-out');
-
 		const toolMid = document.createElement('div');
 		toolMid.classList.add('tool-mid-box-left');
-		parent.appendChild(toolMid);
 
 		this.buttons.forEach((component, i) => {
 			const current = toolMid.appendChild(this.renderButton(component));
 			current.addEventListener('click', event => {
 				const imgs = toolMid.querySelectorAll('img');
-				
+
 				this.buttons.forEach((c, j) => {
 					imgs[j].src = (i === j) ? c.iconActive : c.icon;
 				});
@@ -226,8 +224,10 @@ class ToolBox {
 		toolMid.appendChild(this.renderColorCell());
 		toolMid.appendChild(this.renderCleanCell());
 
-		this.parent = parent;
+		this.parent = toolMid;
 		room.callbacks.on("onRoomStateChanged", this.onRoomStateChanged);
+
+		return this.parent;
 	}
 }
 

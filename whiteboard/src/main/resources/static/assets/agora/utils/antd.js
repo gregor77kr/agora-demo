@@ -35,7 +35,7 @@ class Popover {
 	render() {
 		const divPopover = document.createElement('div');
 		divPopover.classList.add('ant-popover');
-		divPopover.classList.add('ant-popover-placement-right');
+		divPopover.classList.add('ant-popover-placement-' + this.props.placement);
 		divPopover.classList.add('ant-popover-hidden');
 		divPopover.style.position = 'absolute';
 		divPopover.style.pointerEvents = 'none';

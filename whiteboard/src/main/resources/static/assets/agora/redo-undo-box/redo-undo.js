@@ -61,8 +61,6 @@ class RedoUndo {
 	}
 
 	render() {
-		const parent = document.querySelector('.redo-undo-box');
-
 		const divRedoUndo = document.createElement('div');
 		divRedoUndo.classList.add('redo-undo');
 
@@ -94,10 +92,10 @@ class RedoUndo {
 			this.handleRedo();
 		}, false);
 
-		parent.appendChild(divRedoUndo);
-
 		this.componentDidMount();
-		this.parent = parent;
+		this.parent = divRedoUndo;
+		
+		return this.parent;
 	}
 }
 

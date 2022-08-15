@@ -1,6 +1,8 @@
 class ZoomBox {
 	constructor(room) {
 		this.room = room;
+		
+		this.parent = null;
 
 		this.reset = Object.freeze({
 			applianceName: 'reset',
@@ -50,7 +52,7 @@ class ZoomBox {
 
 	writeCurrentScale(scale) {
 		const currentScale = Math.ceil(scale * 100);
-		const divCurrentScale = document.querySelector('.scale-controller-scale');
+		const divCurrentScale = this.parent.querySelector('.scale-controller-scale');
 		divCurrentScale.textContent = currentScale + '%';
 	}
 
@@ -131,8 +133,6 @@ class ZoomBox {
 	}
 
 	render() {
-		const parent = document.querySelector('.zoom-controller-box');
-
 		// scale-controller-box
 		const divScale = document.createElement('div');
 		divScale.classList.add('scale-controller-box');
@@ -192,9 +192,10 @@ class ZoomBox {
 		divPlus.addEventListener('click', event => {
 			this.moveRuleIndex(+1);
 		}, false);
-
-		parent.appendChild(divScale);
+		
+		this.parent = divScale;
 		this.writeCurrentScale(1);
+		return this.parent;
 	}
 }
 
