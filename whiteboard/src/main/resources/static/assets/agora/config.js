@@ -10,6 +10,11 @@ let icons = {
 		last: 'img-last',
 		lastDisabled: 'img-last-disabled',
 		preview: 'img-preview'
+	},
+	preview : {
+		addPage : 'img-add-page',
+		close : 'img-close-page'
+		
 	}
 };
 
