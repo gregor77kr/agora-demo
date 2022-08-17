@@ -42,7 +42,9 @@ class Whiteboard {
 		const divRedoUndo = document.createElement('div');
 		divRedoUndo.classList.add('redo-undo-box');
 
-		let redoUndo = new RedoUndo(this.props.room);
+		let redoUndo = new RedoUndo({
+			room : this.props.room
+		});
 		divRedoUndo.appendChild(redoUndo.render());
 		divRealTimeBox.appendChild(divRedoUndo);
 
@@ -61,7 +63,9 @@ class Whiteboard {
 		const divPageMidBox = document.createElement('div');
 		divPageMidBox.classList.add('page-controller-mid-box');
 
-		let pageBox = new PageBox(this.props.room);
+		let pageBox = new PageBox({
+			room : this.props.room
+		});
 		divPageMidBox.appendChild(pageBox.render());
 
 		// page-preview

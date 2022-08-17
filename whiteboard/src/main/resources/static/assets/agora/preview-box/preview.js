@@ -1,11 +1,9 @@
-class PreviewBox {
+import DomCreator from '../utils/DomCreator.js';
+
+class PreviewBox extends DomCreator {
 
 	constructor(props) {
-
-		this.parent = null;
-
-		// room, handlePreviewState, isVisible
-		this.props = null;
+		super(props);
 
 		this.state = {
 			isFocus: false,
@@ -27,9 +25,7 @@ class PreviewBox {
 	}
 
 	render = () => {
-		const isVisible = this.props.isVisible;
-		const handlePreviewState = this.props.handlePreviewState;
-		const room = this.props.room;
+		const { isVisible, handlePreviewState, room } = this.props;
 		const scenes = room.state.sceneState.scenes;
 		const sceneDir = room.state.sceneState.scenePath.split("/");
 		sceneDir.pop();
@@ -107,8 +103,8 @@ class PreviewBox {
 
 		divMenuAnnexBox.appendChild(divMenuTitleLineBox);
 
-		this.parent = divMenuAnnexBox;
-		return divMenuAnnexBox;
+		this._element = divMenuAnnexBox;
+		return this._element;
 	}
 }
 

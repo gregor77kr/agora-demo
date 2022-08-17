@@ -1,16 +1,16 @@
+import DomCreator from '../utils/DomCreator.js';
 import { icons } from '../config.js';
 
-class PageBox {
-	constructor(room) {
-		this.room = room;
+class PageBox extends DomCreator {
+
+	constructor(props) {
+		super(props);
 
 		this.page = 0;
-
-		this.parent = null;
 	}
 
 	componentDidMount() {
-		const room = this.room;
+		const { room } = this.props;
 		this.page = room.state.sceneState.index;
 		room.callbacks.on("onRoomStateChanged", (state) => {
 			this.onRoomStateChanged(state);
@@ -18,7 +18,7 @@ class PageBox {
 	}
 
 	componentWillUnmount() {
-		const room = this.room;
+		const { room } = this.props;
 		room.callbacks.off("onRoomStateChanged", (state) => {
 			this.onRoomStateChanged(state);
 		});
@@ -30,27 +30,30 @@ class PageBox {
 
 	// TO-DO : usePPTPlugin, pptPlugin? is ambiguous
 	handlePptPreviousStep = async () => {
-		if (this.room.usePPTPlugin && this.room.pptPlugin?.isHandleCurrentScene) {
-			this.room.pptPlugin.pptPlugin.prevStep();
+		const { room, usePPTPlugin, pptPlugin } = this.props;
+		if (usePPTPlugin && pptPlugin?.isHandleCurrentScene) {
+			room.pptPlugin.prevStep();
 		} else {
-			this.room.pptPreviousStep();
+			room.pptPreviousStep();
 		}
 	}
 
 	handlePptNextStep = async () => {
-		if (this.room.usePPTPlugin && this.room.pptPlugin?.isHandleCurrentScene) {
-			this.room.pptPlugin.pptPlugin.nextStep();
+		const { room, usePPTPlugin, pptPlugin } = this.props;
+		if (usePPTPlugin && pptPlugin?.isHandleCurrentScene) {
+			room.pptPlugin.nextStep();
 		} else {
-			this.room.pptNextStep();
+			room.pptNextStep();
 		}
 	}
 
 	renderPageNumber = () => {
-		const roomState = this.room.state;
+		const { room } = this.props;
+		const roomState = room.state;
 		const activeIndex = roomState.sceneState.index;
 		if (this.page !== activeIndex) {
 			this.page = activeIndex;
-			this.room.scalePptToFit();
+			this.props.room.scalePptToFit();
 		}
 		const scenes = roomState.sceneState.scenes;
 
@@ -63,25 +66,25 @@ class PageBox {
 
 
 	isFirst = () => {
-		const activeIndex = this.room.state.sceneState.index;
+		const activeIndex = this.props.room.state.sceneState.index;
 		return activeIndex === 0;
 	}
 
 	isLast = () => {
-		const roomState = this.room.state;
+		const roomState = this.props.room.state;
 		const activeIndex = roomState.sceneState.index;
 		const lastIndex = roomState.sceneState.scenes.length - 1;
 		return activeIndex === lastIndex;
 	}
 
 	setLastStep = () => {
-		const roomState = this.room.state;
+		const roomState = this.props.room.state;
 		const lastIndex = roomState.sceneState.scenes.length - 1;
-		this.room.setSceneIndex(lastIndex);
+		this.props.room.setSceneIndex(lastIndex);
 	}
 
 	setFirstStep = () => {
-		this.room.setSceneIndex(0);
+		this.props.room.setSceneIndex(0);
 	}
 
 	render() {
@@ -148,8 +151,8 @@ class PageBox {
 		}, false);
 
 		this.componentDidMount();
-		this.parent = parent;
-		return parent;
+		this._element = parent;
+		return this._element;
 	}
 }
 

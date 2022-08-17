@@ -1,8 +1,9 @@
-class RedoUndo {
-	constructor(room) {
-		this.room = room;
+import DomCreator from '../utils/DomCreator.js';
 
-		this.parent = null;
+class RedoUndo extends DomCreator {
+
+	constructor(props) {
+		super(props);
 
 		this.state = {
 			undoSteps: 0,
@@ -21,27 +22,31 @@ class RedoUndo {
 	}
 
 	componentDidMount() {
-		if (this.room.isWritable) {
-			this.room.disableSerialization = false;
+		const { room } = this.props;
+
+		if (room.isWritable) {
+			room.disableSerialization = false;
 		}
-		this.room.callbacks.on("onCanUndoStepsUpdate", (steps) => {
+		room.callbacks.on("onCanUndoStepsUpdate", (steps) => {
 			this.setUndoSteps(steps);
 
-			const imgUndo = this.parent.querySelectorAll('img')[0];
+			const imgUndo = this._element.querySelectorAll('img')[0];
 			imgUndo.src = this.state.undoSteps === 0 ? this.undo.iconDisabled : this.undo.icon;
 		});
 
-		this.room.callbacks.on("onCanRedoStepsUpdate", (steps) => {
+		room.callbacks.on("onCanRedoStepsUpdate", (steps) => {
 			this.setRedoSteps(steps);
 
-			const imgRedo = this.parent.querySelectorAll('img')[1];
+			const imgRedo = this._element.querySelectorAll('img')[1];
 			imgRedo.src = this.state.redoSteps === 0 ? this.redo.iconDisabled : this.redo.icon;
 		});
 	}
 
 	componentWillUnmount() {
-		this.room.callbacks.off("onCanUndoStepsUpdate", this.setUndoSteps);
-		this.room.callbacks.off("onCanRedoStepsUpdate", this.setRedoSteps);
+		const { room } = this.props;
+
+		room.callbacks.off("onCanUndoStepsUpdate", this.setUndoSteps);
+		room.callbacks.off("onCanRedoStepsUpdate", this.setRedoSteps);
 	}
 
 	setUndoSteps(steps) {
@@ -53,11 +58,11 @@ class RedoUndo {
 	}
 
 	handleUndo() {
-		this.room.undo();
+		this.props.room.undo();
 	}
 
 	handleRedo() {
-		this.room.redo();
+		this.props.room.redo();
 	}
 
 	render() {
@@ -93,9 +98,9 @@ class RedoUndo {
 		}, false);
 
 		this.componentDidMount();
-		this.parent = divRedoUndo;
-		
-		return this.parent;
+		this._element = divRedoUndo;
+
+		return this._element;
 	}
 }
 
