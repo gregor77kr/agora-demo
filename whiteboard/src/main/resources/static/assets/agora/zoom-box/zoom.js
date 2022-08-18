@@ -1,22 +1,23 @@
-class ZoomBox {
-	constructor(room) {
-		this.room = room;
-		
-		this.parent = null;
+import { icons } from '../config.js';
+import DomCreator from '../utils/DomCreator.js';
+
+class ZoomBox extends DomCreator {
+	constructor(props) {
+		super(props);
 
 		this.reset = Object.freeze({
 			applianceName: 'reset',
-			icon: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+cmVzZXQ8L3RpdGxlPgogICAgPGcgaWQ9Iumhtemdoi0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0i5YiH5Zu+IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtODguMDAwMDAwLCAtMTUyLjAwMDAwMCkiPgogICAgICAgICAgICA8Y2lyY2xlIGlkPSLmpK3lnIblvaLlpIfku70tMiIgZmlsbD0iIzQ0NEU2MCIgY3g9IjEwMCIgY3k9IjE2NCIgcj0iMSI+PC9jaXJjbGU+CiAgICAgICAgICAgIDxjaXJjbGUgaWQ9IuakreWchuW9oiIgc3Ryb2tlPSIjNDQ0RTYwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGN4PSIxMDAiIGN5PSIxNjQiIHI9IjQiPjwvY2lyY2xlPgogICAgICAgICAgICA8bGluZSB4MT0iMTAwIiB5MT0iMTU4IiB4Mj0iMTAwIiB5Mj0iMTYwIiBpZD0i6Lev5b6ELTLlpIfku70tMiIgc3Ryb2tlPSIjNDQ0RTYwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjwvbGluZT4KICAgICAgICAgICAgPGxpbmUgeDE9IjEwMCIgeTE9IjE2OCIgeDI9IjEwMCIgeTI9IjE3MCIgaWQ9Iui3r+W+hC0y5aSH5Lu9LTIiIHN0cm9rZT0iIzQ0NEU2MCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48L2xpbmU+CiAgICAgICAgICAgIDxsaW5lIHgxPSIxMDYiIHkxPSIxNjQiIHgyPSIxMDQiIHkyPSIxNjQiIGlkPSLot6/lvoQtMuWkh+S7vS0yIiBzdHJva2U9IiM0NDRFNjAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PC9saW5lPgogICAgICAgICAgICA8bGluZSB4MT0iOTYiIHkxPSIxNjQiIHgyPSI5NCIgeTI9IjE2NCIgaWQ9Iui3r+W+hC0y5aSH5Lu9LTIiIHN0cm9rZT0iIzQ0NEU2MCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48L2xpbmU+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4='
+			icon: icons.zoom.reset
 		});
 
 		this.less = Object.freeze({
 			applianceName: 'less',
-			icon: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+bGVzczwvdGl0bGU+CiAgICA8ZyBpZD0i6aG16Z2iLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgICAgICAgPGcgaWQ9IuWIh+WbviIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTg4LjAwMDAwMCwgLTE4OC4wMDAwMDApIiBzdHJva2U9IiM0NDRFNjAiPgogICAgICAgICAgICA8bGluZSB4MT0iOTUiIHkxPSIyMDAiIHgyPSIxMDUiIHkyPSIyMDAiIGlkPSLot6/lvoQtMuWkh+S7vSI+PC9saW5lPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+'
+			icon: icons.zoom.less
 		});
 
 		this.plus = Object.freeze({
 			applianceName: 'plus',
-			icon: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+YWRkPC90aXRsZT4KICAgIDxnIGlkPSLpobXpnaItMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgICAgICA8ZyBpZD0i5YiH5Zu+IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtODguMDAwMDAwLCAtMjI0LjAwMDAwMCkiIHN0cm9rZT0iIzQ0NEU2MCI+CiAgICAgICAgICAgIDxsaW5lIHgxPSIxMDAiIHkxPSIyMzEiIHgyPSIxMDAiIHkyPSIyNDEiIGlkPSLot6/lvoQtMiI+PC9saW5lPgogICAgICAgICAgICA8bGluZSB4MT0iOTUiIHkxPSIyMzYiIHgyPSIxMDUiIHkyPSIyMzYiIGlkPSLot6/lvoQtMiI+PC9saW5lPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+'
+			icon: icons.zoom.plus
 		});
 
 		this.dividingRule = Object.freeze([
@@ -52,7 +53,7 @@ class ZoomBox {
 
 	writeCurrentScale(scale) {
 		const currentScale = Math.ceil(scale * 100);
-		const divCurrentScale = this.parent.querySelector('.scale-controller-scale');
+		const divCurrentScale = this._element.querySelector('.scale-controller-scale');
 		divCurrentScale.textContent = currentScale + '%';
 	}
 
@@ -88,8 +89,9 @@ class ZoomBox {
 	}
 
 	moveTo100() {
-		const scenes = this.room.state.sceneState.scenes;
-		const index = this.room.state.sceneState.index;
+		const { room } = this.props;
+		const scenes = room.state.sceneState.scenes;
+		const index = room.state.sceneState.index;
 		this.tempRuleIndex = this.readRuleIndexByScale(1);
 		this.delaySyncRuleIndex();
 
@@ -103,6 +105,8 @@ class ZoomBox {
 	}
 
 	zoomChange(scale) {
+		const { room } = this.props;
+
 		room.moveCamera({
 			centerX: 0,
 			centerY: 0,
@@ -111,7 +115,8 @@ class ZoomBox {
 	}
 
 	moveRuleIndex(deltaIndex) {
-		const scale = this.room.state.cameraState.scale;
+		const { room } = this.props;
+		const scale = room.state.cameraState.scale;
 
 		if (!this.tempRuleIndex) {
 			this.tempRuleIndex = this.readRuleIndexByScale(scale);
@@ -134,68 +139,81 @@ class ZoomBox {
 
 	render() {
 		// scale-controller-box
-		const divScale = document.createElement('div');
-		divScale.classList.add('scale-controller-box');
+		const divScale = this.createElement({
+			type: 'div',
+			classes: ['scale-controller-box']
+		});
 
 		// reset
-		const divReset = document.createElement('div');
-		divReset.classList.add('scale-controller-btn');
-
-		const imgReset = document.createElement('img');
-		imgReset.src = this.reset.icon;
-		imgReset.alt = this.reset.applianceName;
-
-		divReset.appendChild(imgReset);
-		divScale.appendChild(divReset);
+		const divReset = this.createElement({
+			type: 'div',
+			classes: ['scale-controller-btn']
+		});
 
 		divReset.addEventListener('click', event => {
 			this.moveTo100();
 		}, false);
 
+		const imgReset = this.createElement({
+			type: 'img',
+			classes: [this.reset.icon]
+		});
+
+		this.appendChild(divScale, divReset, imgReset);
+
 		// cutline
-		const divCutLine = document.createElement('div');
-		divCutLine.classList.add('scale-controller-cut-line');
-		divScale.appendChild(divCutLine);
+		const divCutLine = this.createElement({
+			type: 'div',
+			classes: ['scale-controller-cut-line']
+		});
+
+		this.appendChild(divScale, divCutLine);
 
 		// less
-		const divLess = document.createElement('div');
-		divLess.classList.add('scale-controller-btn');
-
-		const imgLess = document.createElement('img');
-		imgLess.src = this.less.icon;
-		imgLess.alt = this.less.applianceName;
-
-		divLess.appendChild(imgLess);
-		divScale.appendChild(divLess);
+		const divLess = this.createElement({
+			type: 'div',
+			classes: ['scale-controller-btn']
+		});
 
 		divLess.addEventListener('click', event => {
 			this.moveRuleIndex(-1);
 		}, false);
 
-		// current scale
-		const divCurrentScale = document.createElement('div');
-		divCurrentScale.classList.add('scale-controller-scale');
+		const imgLess = this.createElement({
+			type: 'img',
+			classes: [this.less.icon]
+		});
 
-		divScale.appendChild(divCurrentScale);
+		this.appendChild(divScale, divLess, imgLess);
+
+		// current scale
+		const divCurrentScale = this.createElement({
+			type: 'div',
+			classes: ['scale-controller-scale']
+		});
+
+		this.appendChild(divScale, divCurrentScale);
 
 		// plus
-		const divPlus = document.createElement('div');
-		divPlus.classList.add('scale-controller-btn');
-
-		const imgPlus = document.createElement('img');
-		imgPlus.src = this.plus.icon;
-		imgPlus.alt = this.plus.applianceName;
-
-		divPlus.appendChild(imgPlus);
-		divScale.appendChild(divPlus);
+		const divPlus = this.createElement({
+			type: 'div',
+			classes: ['scale-controller-btn']
+		});
 
 		divPlus.addEventListener('click', event => {
 			this.moveRuleIndex(+1);
 		}, false);
-		
-		this.parent = divScale;
+
+		const imgPlus = this.createElement({
+			type: 'img',
+			classes: [this.plus.icon]
+		});
+
+		this.appendChild(divScale, divPlus, imgPlus);
+
+		this._element = divScale;
 		this.writeCurrentScale(1);
-		return this.parent;
+		return this._element;
 	}
 }
 

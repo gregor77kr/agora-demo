@@ -1,9 +1,9 @@
-class ColorTool {
+import DomCreator from '../utils/DomCreator.js';
 
-	constructor(room) {
-		this.room = room;
+class ColorTool extends DomCreator {
 
-		this.parent = null;
+	constructor(props) {
+		super(props);
 
 		this.colors = [
 			"#EC3455",
@@ -30,9 +30,11 @@ class ColorTool {
 	}
 
 	selectColor(newColor) {
-		this.room.setMemberState({ strokeColor: newColor });
+		const { room } = this.props;
 
-		const divCellMidColors = this.parent.children;
+		room.setMemberState({ strokeColor: newColor });
+
+		const divCellMidColors = this._element.children;
 		const hex = this.rgbToHex(newColor);
 
 		// border
@@ -46,7 +48,8 @@ class ColorTool {
 	}
 
 	isMatchColor(color) {
-		const strokeColor = this.room.state.memberState.strokeColor;
+		const { room } = this.props;
+		const strokeColor = room.state.memberState.strokeColor;
 		return (
 			strokeColor[0] === color[0] &&
 			strokeColor[1] === color[1] &&
@@ -60,37 +63,43 @@ class ColorTool {
 	}
 
 	rgbToHex(rgb) {
-		return "#" +  this.componentToHex(rgb[0]) + this.componentToHex(rgb[1]) + this.componentToHex(rgb[2]);
+		return "#" + this.componentToHex(rgb[0]) + this.componentToHex(rgb[1]) + this.componentToHex(rgb[2]);
 	}
 
 	render() {
-		const strokeColor = this.room.state.memberState.strokeColor;
+		const { room } = this.props;
+		const strokeColor = room.state.memberState.strokeColor;
 
 		// parent
-		const divCellBox = document.createElement('div');
-		divCellBox.classList.add('cell-box');
+		const divCellBox = this.createElement({
+			type: 'div',
+			classes: ['cell-box']
+		});
 
 		this.colors.forEach((color, i) => {
 			const newColor = this.hexToRgb(color);
 
-			const divCellMidColor = document.createElement('div');
-			divCellMidColor.classList.add('cell-mid-color');
-			divCellMidColor.style.borderColor = this.isMatchColor(newColor) ? this.rgbToHex(strokeColor) : '#FFFFFF';
+			const divCellMidColor = this.createElement({
+				type: 'div',
+				classes: ['cell-mid-color'],
+				style: 'border-color : ' + (this.isMatchColor(newColor) ? this.rgbToHex(strokeColor) : '#FFFFFF')
+			});
 
-			const divCellColor = document.createElement('div');
-			divCellColor.classList.add('cell-color');
-			divCellColor.style.backgroundColor = color;
-
-			divCellMidColor.appendChild(divCellColor);
-			divCellBox.appendChild(divCellMidColor);
+			const divCellColor = this.createElement({
+				type: 'div',
+				classes: ['cell-color'],
+				style: 'background-color : ' + color
+			});
 
 			divCellColor.addEventListener('click', event => {
 				this.selectColor(newColor);
 			}, false);
+
+			this.appendChild(divCellBox, divCellMidColor, divCellColor);
 		});
 
-		this.parent = divCellBox;
-		return divCellBox;
+		this._element = divCellBox;
+		return this._element;
 	}
 }
 

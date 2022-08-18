@@ -1,5 +1,5 @@
-import DomCreator from '../utils/DomCreator.js';
 import { icons } from '../config.js';
+import DomCreator from '../utils/DomCreator.js';
 
 class PageBox extends DomCreator {
 
@@ -57,8 +57,10 @@ class PageBox extends DomCreator {
 		}
 		const scenes = roomState.sceneState.scenes;
 
-		const divPageNumber = document.createElement('div');
-		divPageNumber.classList.add('whiteboard-annex-arrow-page');
+		const divPageNumber = this.createElement({
+			type: 'div',
+			classes: ['whiteboard-annex-arrow-page']
+		});
 		divPageNumber.textContent = (activeIndex + 1) + '/' + (scenes.length)
 
 		return divPageNumber;
@@ -88,67 +90,81 @@ class PageBox extends DomCreator {
 	}
 
 	render() {
-		const parent = document.createElement('div');
-		parent.classList.add('whiteboard-annex-box');
+		const parent = this.createElement({
+			type: 'div',
+			classes: ['whiteboard-annex-box']
+		});
 
 		// first-active
-		const divFirst = document.createElement('div');
-		divFirst.classList.add('whiteboard-annex-arrow');
-
-		const imgFirst = document.createElement('img');
-		imgFirst.classList.add(this.isFirst() ? icons.page.firstDisabled : icons.page.first);
-
-		divFirst.appendChild(imgFirst);
-		parent.appendChild(divFirst);
+		const divFirst = this.createElement({
+			type: 'div',
+			classes: ['whiteboard-annex-arrow']
+		});
 
 		divFirst.addEventListener('click', event => {
 			this.setFirstStep();
 		}, false);
 
+		const imgFirst = this.createElement({
+			type: 'img',
+			classes: [this.isFirst() ? icons.page.firstDisabled : icons.page.first]
+		});
+
+		this.appendChild(parent, divFirst, imgFirst);
+
 		// back
-		const divBack = document.createElement('div');
-		divBack.classList.add('whiteboard-annex-arrow');
-
-		const imgBack = document.createElement('img');
-		imgBack.classList.add(this.isFirst() ? icons.page.backDisabled : icons.page.back);
-
-		divBack.appendChild(imgBack);
-		parent.appendChild(divBack);
+		const divBack = this.createElement({
+			type: 'div',
+			classes: ['whiteboard-annex-arrow']
+		});
 
 		divBack.addEventListener('click', event => {
 			this.handlePptPreviousStep();
 		}, false);
 
+		const imgBack = this.createElement({
+			type: 'img',
+			classes: [this.isFirst() ? icons.page.backDisabled : icons.page.back]
+		});
+
+		this.appendChild(parent, divBack, imgBack);
+
 		// page number
-		parent.appendChild(this.renderPageNumber());
+		this.appendChild(parent, this.renderPageNumber());
 
 		// next
-		const divNext = document.createElement('div');
-		divNext.classList.add('whiteboard-annex-arrow');
-
-		const imgNext = document.createElement('img');
-		imgNext.classList.add(this.isLast() ? icons.page.nextDisabled : icons.page.next);
-
-		divNext.appendChild(imgNext);
-		parent.appendChild(divNext);
+		const divNext = this.createElement({
+			type: 'div',
+			classes: ['whiteboard-annex-arrow']
+		});
 
 		divNext.addEventListener('click', event => {
 			this.handlePptNextStep();
 		}, false);
 
+		const imgNext = this.createElement({
+			type: 'img',
+			classes: [this.isLast() ? icons.page.nextDisabled : icons.page.next]
+		});
+
+		this.appendChild(parent, divNext, imgNext);
+
 		// last
-		const divLast = document.createElement('div');
-		divLast.classList.add('whiteboard-annex-arrow');
-
-		const imgLast = document.createElement('img');
-		imgLast.classList.add(this.isLast() ? icons.page.lastDisabled : icons.page.last);
-
-		divLast.appendChild(imgLast);
-		parent.appendChild(divLast);
+		const divLast = this.createElement({
+			type: 'div',
+			classes: ['whiteboard-annex-arrow']
+		});
 
 		divLast.addEventListener('click', event => {
 			this.setLastStep();
 		}, false);
+
+		const imgLast = this.createElement({
+			type: 'img',
+			classes: [this.isLast() ? icons.page.lastDisabled : icons.page.last]
+		});
+
+		this.appendChild(parent, divLast, imgLast);
 
 		this.componentDidMount();
 		this._element = parent;

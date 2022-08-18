@@ -20,7 +20,6 @@ class Whiteboard {
 	}
 
 	render() {
-		const id = this.props.id;
 		const room = this.props.room;
 
 		// pager
@@ -34,7 +33,9 @@ class Whiteboard {
 		const divToolBoxOut = document.createElement('div');
 		divToolBoxOut.classList.add('tool-box-out');
 
-		let toolBox = new ToolBox(this.props.room);
+		let toolBox = new ToolBox({
+			room: room
+		});
 		divToolBoxOut.appendChild(toolBox.render());
 		divRealTimeBox.appendChild(divToolBoxOut);
 
@@ -43,7 +44,7 @@ class Whiteboard {
 		divRedoUndo.classList.add('redo-undo-box');
 
 		let redoUndo = new RedoUndo({
-			room : this.props.room
+			room: room
 		});
 		divRedoUndo.appendChild(redoUndo.render());
 		divRealTimeBox.appendChild(divRedoUndo);
@@ -52,7 +53,9 @@ class Whiteboard {
 		const divZoomBox = document.createElement('div');
 		divZoomBox.classList.add('zoom-controller-box');
 
-		let zoomBox = new ZoomBox(this.props.room);
+		let zoomBox = new ZoomBox({
+			room: room
+		})
 		divZoomBox.appendChild(zoomBox.render());
 		divRealTimeBox.appendChild(divZoomBox);
 
@@ -64,7 +67,7 @@ class Whiteboard {
 		divPageMidBox.classList.add('page-controller-mid-box');
 
 		let pageBox = new PageBox({
-			room : this.props.room
+			room: room
 		});
 		divPageMidBox.appendChild(pageBox.render());
 
