@@ -1,5 +1,4 @@
 import { } from './utils/utils.js';
-import { icons } from './config.js';
 import { ZoomBox } from './zoom-box/zoom.js';
 import { ToolBox } from './tool-box/tool.js';
 import { RedoUndo } from './redo-undo-box/redo-undo.js';
@@ -70,20 +69,6 @@ class Whiteboard {
 			room: room
 		});
 		divPageMidBox.appendChild(pageBox.render());
-
-		// page-preview
-		const divPagePreview = document.createElement('div');
-		divPagePreview.classList.add('page-preview-cell');
-
-		const imgPagePreview = document.createElement('div');
-		imgPagePreview.classList.add(icons.page.preview);
-
-		divPagePreview.appendChild(imgPagePreview);
-		divPageMidBox.appendChild(divPagePreview);
-
-		divPagePreview.addEventListener('click', event => {
-			this.handlePreviewState(true);
-		}, false);
 
 		divPageBox.appendChild(divPageMidBox);
 		divRealTimeBox.appendChild(divPageBox);

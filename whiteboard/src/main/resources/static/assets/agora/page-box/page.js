@@ -9,25 +9,6 @@ class PageBox extends DomCreator {
 		this.page = 0;
 	}
 
-	componentDidMount() {
-		const { room } = this.props;
-		this.page = room.state.sceneState.index;
-		room.callbacks.on("onRoomStateChanged", (state) => {
-			this.onRoomStateChanged(state);
-		});
-	}
-
-	componentWillUnmount() {
-		const { room } = this.props;
-		room.callbacks.off("onRoomStateChanged", (state) => {
-			this.onRoomStateChanged(state);
-		});
-	}
-
-	onRoomStateChanged = (modifyState) => {
-
-	}
-
 	// TO-DO : usePPTPlugin, pptPlugin? is ambiguous
 	handlePptPreviousStep = async () => {
 		const { room, usePPTPlugin, pptPlugin } = this.props;
@@ -47,6 +28,64 @@ class PageBox extends DomCreator {
 		}
 	}
 
+
+	componentDidMount() {
+		const { room } = this.props;
+		this.page = room.state.sceneState.index;
+		room.callbacks.on("onRoomStateChanged", (state) => {
+			this.onRoomStateChanged(state);
+		});
+	}
+
+	componentWillUnmount() {
+		const { room } = this.props;
+		room.callbacks.off("onRoomStateChanged", (state) => {
+			this.onRoomStateChanged(state);
+		});
+	}
+
+	onRoomStateChanged = (state) => {
+		if (state && state.hasOwnProperty('sceneState')) {
+			this.page = state.sceneState.index;
+			this.writePageNumber();
+			this.toggleButton();
+		}
+	}
+
+	writePageNumber = () => {
+		const { room } = this.props;
+		const roomState = room.state;
+		const activeIndex = roomState.sceneState.index;
+		if (this.page !== activeIndex) {
+			this.page = activeIndex;
+			this.props.room.scalePptToFit();
+		}
+		const scenes = roomState.sceneState.scenes;
+
+		const divPageNumber = this._element.querySelector('.whiteboard-annex-arrow-page-number');
+		divPageNumber.textContent = (activeIndex + 1) + '/' + (scenes.length);
+	}
+
+	toggleButton = () => {
+		const imgs = this._element.querySelectorAll('img');
+
+		const imgFirst = imgs[0];
+		this.clearClasses(imgFirst);
+		this.addClasses(imgFirst, [this.isFirst() ? icons.page.firstDisabled : icons.page.first]);
+
+		const imgBack = imgs[1];
+		this.clearClasses(imgBack);
+		this.addClasses(imgBack, [this.isFirst() ? icons.page.backDisabled : icons.page.back]);
+
+		const imgNext = imgs[2];
+		this.clearClasses(imgNext);
+		this.addClasses(imgNext, [this.isLast() ? icons.page.nextDisabled : icons.page.next]);
+
+		const imgLast = imgs[3];
+		this.clearClasses(imgLast);
+		this.addClasses(imgLast, [this.isLast() ? icons.page.lastDisabled : icons.page.last]);
+	}
+
 	renderPageNumber = () => {
 		const { room } = this.props;
 		const roomState = room.state;
@@ -59,9 +98,9 @@ class PageBox extends DomCreator {
 
 		const divPageNumber = this.createElement({
 			type: 'div',
-			classes: ['whiteboard-annex-arrow-page']
+			classes: ['whiteboard-annex-arrow-page', 'whiteboard-annex-arrow-page-number']
 		});
-		divPageNumber.textContent = (activeIndex + 1) + '/' + (scenes.length)
+		divPageNumber.textContent = (activeIndex + 1) + '/' + (scenes.length);
 
 		return divPageNumber;
 	}
@@ -87,6 +126,35 @@ class PageBox extends DomCreator {
 
 	setFirstStep = () => {
 		this.props.room.setSceneIndex(0);
+	}
+
+	pathName = (path) => {
+		const cells = path.split("/");
+		const popCell = cells.pop();
+		if (popCell === "") {
+			cells.pop();
+		}
+		return cells.join("/");
+	}
+
+	addPage = () => {
+		const { room } = this.props;
+		const activeIndex = room.state.sceneState.index;
+		const newSceneIndex = activeIndex + 1;
+		const scenePath = room.state.sceneState.scenePath;
+		const pathName = this.pathName(scenePath);
+		room.putScenes(pathName, [{}], newSceneIndex);
+		room.setSceneIndex(newSceneIndex);
+	}
+
+	removePage = () => {
+		const { room } = this.props;
+		const scenePath = room.state.sceneState.scenePath;
+		const activeIndex = room.state.sceneState.index;
+
+		if (room.state.sceneState.scenes.length !== 1) {
+			room.removeScenes(scenePath);
+		}
 	}
 
 	render() {
@@ -165,6 +233,40 @@ class PageBox extends DomCreator {
 		});
 
 		this.appendChild(parent, divLast, imgLast);
+
+		// add page
+		const divAdd = this.createElement({
+			type: 'div',
+			classes: ['whiteboard-annex-arrow']
+		});
+
+		divAdd.addEventListener('click', event => {
+			this.addPage();
+		}, false);
+
+		const imgAdd = this.createElement({
+			type: 'img',
+			classes: [icons.preview.addPage]
+		});
+
+		this.appendChild(parent, divAdd, imgAdd);
+
+		// remove page
+		const divRemove = this.createElement({
+			type: 'div',
+			classes: ['whiteboard-annex-arrow']
+		});
+
+		divRemove.addEventListener('click', event => {
+			this.removePage();
+		}, false);
+
+		const imgRemove = this.createElement({
+			type: 'img',
+			classes: [icons.preview.close]
+		});
+
+		this.appendChild(parent, divRemove, imgRemove);
 
 		this.componentDidMount();
 		this._element = parent;

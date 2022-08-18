@@ -105,8 +105,8 @@ export default class DomCreator {
 		if (!this.isElement(element)) {
 			throw 'element is not a HTMLElement';
 		}
-
-		element.className = '';
+		
+		element.removeAttribute('class');
 	}
 
 	/**

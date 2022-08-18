@@ -1,5 +1,8 @@
 import DomCreator from '../utils/DomCreator.js';
 
+/**
+ * TO-DO : missing css
+ */
 class PreviewBox extends DomCreator {
 
 	constructor(props) {
@@ -31,77 +34,84 @@ class PreviewBox extends DomCreator {
 		sceneDir.pop();
 		const activeIndex = room.state.sceneState.index;
 
-		// 1. menu-annex-box
-		const divMenuAnnexBox = document.createElement('div');
-		divMenuAnnexBox.classList.add('menu-annex-box');
-		divMenuAnnexBox.style.outline = 0;
+		// parent
+		const divMenuAnnexBox = this.createElement({
+			type: 'div',
+			classes: ['menu-annex-box'],
+			style: 'outline : 0px'
+		});
 
-		// 1-1. menu-title-line-box
-		const divMenuTitleLineBox = document.createElement('div');
-		divMenuTitleLineBox.classList.add('menu-title-line-box');
+		// line-box
+		const divMenuTitleLineBox = this.createElement({
+			type: 'div',
+			classes: ['menu-title-line-box']
+		});
 
-		// 1-1-1. menu-title-line
-		const divMenuTitleLine = document.createElement('div');
-		divMenuTitleLine.classList.add('menu-title-line');
+		const divMenuTitleLine = this.createElement({
+			type: 'div',
+			classes: ['menu-title-line']
+		});
 
-		// 1-1-1-1. menu-title-text-box
-		const divMenuTitleTextBox = document.createElement('div');
-		divMenuTitleTextBox.classList.add('menu-title-text-box');
-
+		const divMenuTitleTextBox = this.createElement({
+			type: 'div',
+			classes: ['menu-title-text-box']
+		});
 		divMenuTitleTextBox.textContent = 'Preview';
-		divMenuTitleLine.appendChild(divMenuTitleTextBox);
 
-		// 1-1-1-2. menu-title-left
-		const divMenuTitleLeft = document.createElement('div');
-		divMenuTitleLeft.classList.add('menu-title-left');
+		// add page
+		const divMenuTitleLeft = this.createElement({
+			type: 'div',
+			classes: ['menu-title-left']
+		});
 
-		// 1-1-1-2-1. menu-add-btn
-		const divMenuAddBtn = document.createElement('div');
-		divMenuAddBtn.classList.add('menu-head-btn');
-
-		// 1-1-1-2-1-1. img add page
-		const imgAddPage = document.createElement('img');
-		imgAddPage.classList.add(icons.preview.addPage);
-
-		divMenuAddBtn.appendChild(imgAddPage);
-		divMenuTitleLeft.appendChild(divMenuAddBtn);
+		const divMenuAddBtn = this.createElement({
+			type: 'div',
+			classes: ['menu-head-btn']
+		});
 
 		divMenuAddBtn.addEventListener('click', event => {
 			this.addPage();
 		}, false);
 
-		// 1-1-1-2-2. menu-close-btn
-		const divMenuCloseBtn = document.createElement('div');
-		divMenuCloseBtn.classList.add('menu-head-btn');
+		const imgAddPage = this.createElement({
+			type: 'img',
+			classes: [icons.preview.addPage]
+		});
+		this.appendChild(divMenuAddBtn, imgAddPage);
 
-		// 1-1-1-2-1-1. img add page
-		const imgClosePage = document.createElement('img');
-		imgClosePage.classList.add(icons.preview.close);
-
-		divMenuCloseBtn.appendChild(imgClosePage);
-		divMenuTitleLeft.appendChild(divMenuCloseBtn);
+		// close page
+		const divMenuCloseBtn = this.createElement({
+			type: 'div',
+			classes: ['menu-head-btn']
+		});
 
 		divMenuCloseBtn.addEventListener('click', event => {
 			this.handlePreviewState(false);
 		}, false);
 
-		divMenuTitleLine.appendChild(divMenuTitleLeft);
-		divMenuTitleLineBox.appendChild(divMenuTitleLine);
+		const imgClosePage = this.createElement({
+			type: 'img',
+			classes: [icons.preview.close]
+		});
+		this.appendChild(divMenuCloseBtn, imgClosePage);
 
-		// 1-1-2. 
-		const divLine = document.createElement('div');
-		divLine.style.height = '64px';
+		this.appendChild(divMenuTitleLeft, [divMenuAddBtn, divMenuCloseBtn]);
+		this.appendChild(divMenuTitleLine, [divMenuTitleTextBox, divMenuTitleLeft]);
 
-		divMenuTitleLineBox.appendChild(divLine);
+		// line
+		const divLine = this.createElement({
+			type: 'div',
+			style: 'height : 64px'
+		});
 
-		// 1-1-3. menu-annex-body
-		const divMenuAnnexBody = document.createElement('div');
-		divMenuAnnexBody.classList.add('menu-annex-body');
+		// body
+		const divMenuAnnexBody = this.createElement({
+			type: 'div',
+			classes: ['menu-annex-body']
+		});
+		this.appendChild(divMenuAnnexBody, this.renderPreviewCells(scenes, activeIndex, sceneDir));
 
-		divMenuAnnexBody.appendChild(this.renderPreviewCells(scenes, activeIndex, sceneDir));
-		divMenuTitleLineBox.appendChild(divMenuAnnexBody);
-
-		divMenuAnnexBox.appendChild(divMenuTitleLineBox);
+		this.appendChild(divMenuAnnexBox, [divMenuTitleLineBox, divLine, divMenuAnnexBody]);
 
 		this._element = divMenuAnnexBox;
 		return this._element;
