@@ -1,85 +1,89 @@
-import { } from './utils/utils.js';
+import DomCreator from './utils/DomCreator.js';
 import { ZoomBox } from './zoom-box/zoom.js';
 import { ToolBox } from './tool-box/tool.js';
 import { RedoUndo } from './redo-undo-box/redo-undo.js';
 import { PageBox } from './page-box/page.js';
 
-class Whiteboard {
+class Whiteboard extends DomCreator {
 	constructor(props) {
+		super(props);
 		this.props = props;
-
-		this.state = {
-			isMenuVisible: false,
-			isFileOpen: false
-		};
-	}
-
-	handlePreviewState = (state) => {
-		this.state.isMenuVisible = state;
 	}
 
 	render() {
-		const room = this.props.room;
+		const { room } = this.props;
 
 		// pager
 		const root = document.querySelector('#' + this.props.id);
 
 		// realtime-box
-		const divRealTimeBox = document.createElement('div');
-		divRealTimeBox.classList.add('realtime-box');
+		const divRealTimeBox = this.createElement({
+			type: 'div',
+			classes: ['realtime-box']
+		});
 
 		// tool-box
-		const divToolBoxOut = document.createElement('div');
-		divToolBoxOut.classList.add('tool-box-out');
+		const divToolBoxOut = this.createElement({
+			type: 'div',
+			classes: ['tool-box-out']
+		});
 
 		let toolBox = new ToolBox({
 			room: room
 		});
-		divToolBoxOut.appendChild(toolBox.render());
-		divRealTimeBox.appendChild(divToolBoxOut);
+
+		this.appendChild(divRealTimeBox, divToolBoxOut, toolBox.render());
 
 		// redo-undo
-		const divRedoUndo = document.createElement('div');
-		divRedoUndo.classList.add('redo-undo-box');
+		const divRedoUndo = this.createElement({
+			type: 'div',
+			classes: ['redo-undo-box']
+		});
 
 		let redoUndo = new RedoUndo({
 			room: room
 		});
-		divRedoUndo.appendChild(redoUndo.render());
-		divRealTimeBox.appendChild(divRedoUndo);
+
+		this.appendChild(divRealTimeBox, divRedoUndo, redoUndo.render());
 
 		// zoom-box
-		const divZoomBox = document.createElement('div');
-		divZoomBox.classList.add('zoom-controller-box');
+		const divZoomBox = this.createElement({
+			type: 'div',
+			classes: ['zoom-controller-box']
+		});
 
 		let zoomBox = new ZoomBox({
 			room: room
 		})
-		divZoomBox.appendChild(zoomBox.render());
-		divRealTimeBox.appendChild(divZoomBox);
+
+		this.appendChild(divRealTimeBox, divZoomBox, zoomBox.render());
 
 		// pager
-		const divPageBox = document.createElement('div');
-		divPageBox.classList.add('page-controller-box');
+		const divPageBox = this.createElement({
+			type: 'div',
+			classes: ['page-controller-box']
+		});
 
-		const divPageMidBox = document.createElement('div');
-		divPageMidBox.classList.add('page-controller-mid-box');
+		const divPageMidBox = this.createElement({
+			type: 'div',
+			classes: ['page-controller-mid-box']
+		});
 
 		let pageBox = new PageBox({
 			room: room
 		});
-		divPageMidBox.appendChild(pageBox.render());
 
-		divPageBox.appendChild(divPageMidBox);
-		divRealTimeBox.appendChild(divPageBox);
+		this.appendChild(divRealTimeBox, divPageBox, divPageMidBox, pageBox.render());
 
 		// white-board
-		const divWhiteBoard = document.createElement('div');
-		divWhiteBoard.classList.add('whiteboard-box');
+		const divWhiteBoard = this.createElement({
+			type: 'div',
+			classes: ['whiteboard-box']
+		});
 
-		divRealTimeBox.appendChild(divWhiteBoard);
+		this.appendChild(divRealTimeBox, divWhiteBoard);
 
-		root.appendChild(divRealTimeBox);
+		this.appendChild(root, divRealTimeBox);
 		this.props.room.bindHtmlElement(divWhiteBoard);
 	}
 }
