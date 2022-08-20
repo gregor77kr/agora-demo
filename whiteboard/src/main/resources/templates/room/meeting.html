@@ -50,7 +50,7 @@
 
 			return whiteWebSdk.joinRoom({
 				'uuid': uuid,
-				'uid': crypto.randomUUID(),
+				'uid': String(Math.trunc(Math.random() * 100)),
 				'roomToken': roomToken
 			}).catch((error) => {
 				console.error(error);

@@ -16,7 +16,7 @@ class ToolBox extends DomCreator {
 		this.buttons = [{
 			applianceName: 'clicker',
 			icon: icons.button.clicker,
-			iconActive: icons.button.clearActive
+			iconActive: icons.button.clickerActive
 		},
 		{
 			applianceName: 'selector',
@@ -141,7 +141,9 @@ class ToolBox extends DomCreator {
 		// event bubble
 		const divPalletBox = this.renderColorContext();
 		divPalletBox.addEventListener('click', event => {
-			divToolCellColor.style.backgroundColor = event.target.style.backgroundColor;
+			if (event.target.className === 'cell-color') {
+				divToolCellColor.style.backgroundColor = event.target.style.backgroundColor;				
+			}
 		}, false);
 
 		// pallet
